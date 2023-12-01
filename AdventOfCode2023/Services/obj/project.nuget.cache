@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "inH2UK9oY50IRjHNOP4Z+wXRbYJmBLZkkAGpn2FBod9UXk/ok3Wa3MhvTqEyX6bLQHt40yKgQkN+I+yE5jKMug==",
+  "success": true,
+  "projectFilePath": "C:\\git\\adventofcode2023\\AdventOfCode2023\\Services\\Services.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\cameron.gazey\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
+    "C:\\Users\\cameron.gazey\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
