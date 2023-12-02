@@ -1,2 +1,3 @@
-**/Cameron/bin/
-**/Cameron/obj/
+/[Oo]bj/
+/[Bb]in/
+.vs/
