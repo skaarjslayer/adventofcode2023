@@ -105,19 +105,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\cameron.gazey\\.nuget\\packages\\": {}
+    "C:\\Users\\Cameron Gazey\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\git\\adventofcode2023\\AdventOfCode2023\\Services\\Services.csproj",
+      "projectUniqueName": "C:\\Users\\Cameron Gazey\\Desktop\\git\\adventofcode2023\\AdventOfCode2023\\Services\\Services.csproj",
       "projectName": "Services",
-      "projectPath": "C:\\git\\adventofcode2023\\AdventOfCode2023\\Services\\Services.csproj",
-      "packagesPath": "C:\\Users\\cameron.gazey\\.nuget\\packages\\",
-      "outputPath": "C:\\git\\adventofcode2023\\AdventOfCode2023\\Services\\obj\\",
+      "projectPath": "C:\\Users\\Cameron Gazey\\Desktop\\git\\adventofcode2023\\AdventOfCode2023\\Services\\Services.csproj",
+      "packagesPath": "C:\\Users\\Cameron Gazey\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Cameron Gazey\\Desktop\\git\\adventofcode2023\\AdventOfCode2023\\Services\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\cameron.gazey\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Cameron Gazey\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -164,7 +164,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

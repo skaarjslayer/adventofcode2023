@@ -1,5 +1,6 @@
 ﻿using Day1.Model;
 using Day1.Services;
+using Day1.Services.CalibrationSumService;
 using Microsoft.Extensions.DependencyInjection;
 using Services;
 
@@ -11,6 +12,7 @@ namespace Day1
         {
             serviceCollection.AddSingleton<ISolverService, Day1SolverService>();
             serviceCollection.AddSingleton<IParseService<Calibration>, CalibrationParseService>();
+            serviceCollection.AddSingleton<ICalibrationSumService, CalibrationSumService>();
         }
     }
 }
