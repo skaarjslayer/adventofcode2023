@@ -80,18 +80,9 @@ namespace Day2.Resources {
         ///Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
         ///Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green.
         /// </summary>
-        internal static string S1Test {
+        internal static string Test {
             get {
-                return ResourceManager.GetString("S1Test", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string S2Test {
-            get {
-                return ResourceManager.GetString("S2Test", resourceCulture);
+                return ResourceManager.GetString("Test", resourceCulture);
             }
         }
     }

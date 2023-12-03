@@ -23,5 +23,14 @@
 
             return true;
         }
+
+        public int GetPower()
+        {
+            int minReds = Reveals.Select(x => x.Reds).Max();
+            int minGreens = Reveals.Select(x => x.Greens).Max();
+            int minBlues = Reveals.Select(x => x.Blues).Max();
+
+            return minReds * minGreens * minBlues;
+        }
     }
 }

@@ -14,10 +14,10 @@ namespace Day2.Services
 
         public void Execute()
         {
-            ExecuteD1S1(Day2.Resources.Resource.S1Test);
+            ExecuteD1S1(Day2.Resources.Resource.Test);
             ExecuteD1S1(Day2.Resources.Resource.D2);
-            //ExecuteD1S2(Day2.Resources.Resource.S2Test);
-            //ExecuteD1S2(Day2.Resources.Resource.D1);
+            ExecuteD1S2(Day2.Resources.Resource.Test);
+            ExecuteD1S2(Day2.Resources.Resource.D2);
         }
 
         public void ExecuteD1S1(string data)
@@ -37,7 +37,16 @@ namespace Day2.Services
 
         public void ExecuteD1S2(string data)
         {
-            
+            IEnumerable<Game> games = _gameParseService.Parse(data);
+
+            foreach (Game game in games)
+            {
+                Console.WriteLine($"The power of game {game.ID} is {game.GetPower()}.");
+            }
+
+            Console.WriteLine($"The sum of all game powers is {games.Sum(x => x.GetPower())}.");
+
+            Console.ReadKey();
         }
     }
 }
