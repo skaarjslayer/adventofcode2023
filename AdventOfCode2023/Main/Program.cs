@@ -12,7 +12,8 @@ namespace AdventOfCode2023
             IServiceCollection services = new ServiceCollection();
 
             ConfigureServices(services);
-            Day1.Module.ConfigureServices(services);
+           // Day1.Module.ConfigureServices(services);
+            Day2.Module.ConfigureServices(services);
 
             IServiceProvider serviceProvider = services.BuildServiceProvider();
 
