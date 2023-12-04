@@ -1,11 +1,12 @@
 ﻿using Day3.Model;
 using Services;
+using Services.Grid;
 
 namespace Day3.Services
 {
-    public class SchematicsGridParseService : IParseService<string, SchematicsGrid>
+    public class GridParseService : IParseService<string, Grid<SchematicsCell>>
     {
-        public SchematicsGrid Parse(string input)
+        public Grid<SchematicsCell> Parse(string input)
         {
             List<List<SchematicsCell>> cells = new List<List<SchematicsCell>>();
 
@@ -23,7 +24,7 @@ namespace Day3.Services
                 cells.Add(rowList);
             }
 
-            return new SchematicsGrid(cells);
+            return new Grid<SchematicsCell>(cells);
         }
     }
 }
