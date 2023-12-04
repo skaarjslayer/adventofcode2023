@@ -3,11 +3,11 @@ using Services;
 
 namespace Day2.Services
 {
-    public class GameParseService : IParseService<Game>
+    public class GameParseService : IParseService<string, IEnumerable<Game>>
     {
-        private readonly IParseService<Subset> _subsetParseService;
+        private readonly IParseService<string, IEnumerable<Subset>> _subsetParseService;
 
-        public GameParseService(IParseService<Subset> subsetParseService)
+        public GameParseService(IParseService<string, IEnumerable<Subset>> subsetParseService)
         {
             _subsetParseService = subsetParseService;
         }

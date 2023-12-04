@@ -10,8 +10,8 @@ namespace Day2
         public static void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton<ISolverService, Day2SolverService>();
-            serviceCollection.AddSingleton<IParseService<Game>, GameParseService>();
-            serviceCollection.AddSingleton<IParseService<Subset>, SubsetParseService>();
+            serviceCollection.AddSingleton<IParseService<string, IEnumerable<Game>>, GameParseService>();
+            serviceCollection.AddSingleton<IParseService<string, IEnumerable<Subset>>, SubsetParseService>();
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Day1.Services
 {
-    public class CalibrationParseService : IParseService<Calibration>
+    public class CalibrationParseService : IParseService<string, IEnumerable<Calibration>>
     {
         public IEnumerable<Calibration> Parse(string input)
         {

@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Services
+﻿namespace Services
 {
-    public interface IParseService<T> : IService
+    public interface IParseService<TInput, TOutput> : IService
     {
-        IEnumerable<T> Parse(string input);
+        TOutput Parse(TInput input);
     }
 }

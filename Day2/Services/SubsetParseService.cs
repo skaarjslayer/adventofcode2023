@@ -3,7 +3,7 @@ using Services;
 
 namespace Day2.Services
 {
-    public class SubsetParseService : IParseService<Subset>
+    public class SubsetParseService : IParseService<string, IEnumerable<Subset>>
     {
         public IEnumerable<Subset> Parse(string input)
         {

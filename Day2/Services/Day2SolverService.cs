@@ -5,9 +5,9 @@ namespace Day2.Services
 {
     public class Day2SolverService : ISolverService
     {
-        private readonly IParseService<Game> _gameParseService;
+        private readonly IParseService<string, IEnumerable<Game>> _gameParseService;
 
-        public Day2SolverService(IParseService<Game> gameParseService)
+        public Day2SolverService(IParseService<string, IEnumerable<Game>> gameParseService)
         {
             _gameParseService = gameParseService;
         }
