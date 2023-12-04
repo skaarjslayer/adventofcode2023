@@ -2,21 +2,34 @@
 {
     public class Scratchcard
     {
+        public int Id { get; init; }
         public IEnumerable<int> WinningNumbers { get; init; }
         public IEnumerable<int> ChosenNumbers { get; init; }
 
-        public Scratchcard(IEnumerable<int> winningNumbers, IEnumerable<int> chosenNumbers)
+        public Scratchcard(int id, IEnumerable<int> winningNumbers, IEnumerable<int> chosenNumbers)
         {
+            Id = id;
             WinningNumbers = winningNumbers;
             ChosenNumbers = chosenNumbers;
         }
 
+        public Scratchcard(Scratchcard scratchcard)
+        {
+            Id = scratchcard.Id;
+            WinningNumbers = new List<int>(scratchcard.WinningNumbers);
+            ChosenNumbers = new List<int>(scratchcard.ChosenNumbers);
+        }
+
+        public int GetWins()
+        {
+            return ChosenNumbers.Where(x => WinningNumbers.Contains(x)).Count();
+        }
+
         public int GetScore()
         {
-            int winCount = ChosenNumbers.Where(x => WinningNumbers.Contains(x)).Count();
             int finalScore = 0;
 
-            for (int i = 0; i < winCount; i++)
+            for (int i = 0; i < GetWins(); i++)
             {
                 finalScore = finalScore == 0 ? 1 : finalScore * 2;
             }

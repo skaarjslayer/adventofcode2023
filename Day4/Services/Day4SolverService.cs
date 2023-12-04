@@ -6,10 +6,13 @@ namespace Day4.Services
     public class Day4SolverService : ISolverService
     {
         private readonly IParseService<string, IEnumerable<Scratchcard>> _scratchcardParseService;
+        private readonly IParseService<IEnumerable<Scratchcard>, IEnumerable<IEnumerable<Scratchcard>>> _winningsParseService;
 
-        public Day4SolverService(IParseService<string, IEnumerable<Scratchcard>> scratchcardParseService)
+        public Day4SolverService(IParseService<string, IEnumerable<Scratchcard>> scratchcardParseService,
+            IParseService<IEnumerable<Scratchcard>, IEnumerable<IEnumerable<Scratchcard>>> winningsParseService)
         {
             _scratchcardParseService = scratchcardParseService;
+            _winningsParseService = winningsParseService;
         }
 
         public void Execute()
@@ -31,11 +34,10 @@ namespace Day4.Services
 
         public void ExecuteD1S2(string data)
         {
-            //Grid<SchematicsCell> grid = _gridParseService.Parse(data);
-            //IEnumerable<Part> parts = _partParseService.Parse(grid);
-            //IEnumerable<Gear> gears = _gearParseService.Parse((parts, grid));
+            IEnumerable<Scratchcard> scratchcards = _scratchcardParseService.Parse(data);
+            IEnumerable<IEnumerable<Scratchcard>> winnings = _winningsParseService.Parse(scratchcards);
 
-            //Console.WriteLine($"The sum of all gear ratios is {gears.Sum(x => x.GetRatio())}.");
+            Console.WriteLine($"The sum of all scratchcards is {winnings.Sum(x => x.Count())}.");
 
             Console.ReadKey();
         }
