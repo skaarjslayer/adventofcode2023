@@ -14,14 +14,12 @@ namespace Day4.Services
             for (int i = 0; i < rows.Length; i++)
             {
                 string[] cardParts = rows[i].Split(':');
-                string[] cardName = cardParts.First().Split(' ');
                 string[] numbers = cardParts.Last().Split('|');
 
                 string[] winningNumbers = numbers.First().Split(' ').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
                 string[] chosenNumbers = numbers.Last().Split(' ').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
                 List<int> winningNumbersList = new List<int>();
                 List<int> chosenNumbersList = new List<int>();
-                int id = int.Parse(cardName.Last());
 
                 foreach (string winningNumber in winningNumbers)
                 {
@@ -33,7 +31,7 @@ namespace Day4.Services
                     chosenNumbersList.Add(int.Parse(chosenNumber));
                 }
 
-                scratchcards.Add(new Scratchcard(id, winningNumbersList, chosenNumbersList));
+                scratchcards.Add(new Scratchcard(winningNumbersList, chosenNumbersList));
             }
 
             return scratchcards;

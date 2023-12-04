@@ -3,32 +3,27 @@ using Services;
 
 namespace Day4.Services
 {
-    public class WinningsParseService : IParseService<IEnumerable<Scratchcard>, IEnumerable<IEnumerable<Scratchcard>>>
+    public class WinningsParseService : IParseService<IEnumerable<Scratchcard>, IEnumerable<int>>
     {
-        public IEnumerable<IEnumerable<Scratchcard>> Parse(IEnumerable<Scratchcard> input)
+        public IEnumerable<int> Parse(IEnumerable<Scratchcard> input)
         {
-            List<List<Scratchcard>> scratchcards = new List<List<Scratchcard>>();
+            List<int> winnings = Enumerable.Repeat(1, input.Count()).ToList();
 
             for (int i = 0; i < input.Count(); i++)
             {
-                scratchcards.Add(new List<Scratchcard>() { input.ElementAt(i) });
-            }
-            
-            for (int i = 0; i < scratchcards.Count(); i++)
-            {
-                for (int j = 0; j < scratchcards.ElementAt(i).Count(); j++)
-                {
-                    Scratchcard scratchcard = scratchcards.ElementAt(i).ElementAt(j);
-                    int wins = scratchcard.GetWins();
+                Scratchcard scratchcard = input.ElementAt(i);
+                int wins = scratchcard.GetWins();
 
+                for (int j = 0; j < winnings.ElementAt(i); j++)
+                {
                     for (int k = i + 1; k < (i + 1) + wins; k++)
                     {
-                        scratchcards[k].Add(new Scratchcard(input.ElementAt(k)));
+                        winnings[k]++;
                     }
                 }
             }
 
-            return scratchcards;
+            return winnings;
         }
     }
 }

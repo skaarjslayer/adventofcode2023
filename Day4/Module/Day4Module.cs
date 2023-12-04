@@ -11,7 +11,7 @@ namespace Day4
         {
             serviceCollection.AddSingleton<ISolverService, Day4SolverService>();
             serviceCollection.AddSingleton<IParseService<string, IEnumerable<Scratchcard>>, ScratchcardParseService>();
-            serviceCollection.AddSingleton<IParseService<IEnumerable<Scratchcard>, IEnumerable<IEnumerable<Scratchcard>>>, WinningsParseService>();
+            serviceCollection.AddSingleton<IParseService<IEnumerable<Scratchcard>, IEnumerable<int>>, WinningsParseService>();
         }
     }
 }
