@@ -6,11 +6,11 @@ namespace Day3.Services
 {
     public class Day3SolverService : ISolverService
     {
-        private readonly IParseService<string, Grid<SchematicCell>> _gridParseService;
-        private readonly IParseService<Grid<SchematicCell>, IEnumerable<Part>> _partParseService;
+        private readonly IParseService<string, Grid<SchematicsCell>> _gridParseService;
+        private readonly IParseService<Grid<SchematicsCell>, IEnumerable<Part>> _partParseService;
 
-        public Day3SolverService(IParseService<string, Grid<SchematicCell>> gridParseService,
-            IParseService<Grid<SchematicCell>, IEnumerable<Part>> partParseService)
+        public Day3SolverService(IParseService<string, Grid<SchematicsCell>> gridParseService,
+            IParseService<Grid<SchematicsCell>, IEnumerable<Part>> partParseService)
         {
             _gridParseService = gridParseService;
             _partParseService = partParseService;
@@ -26,15 +26,10 @@ namespace Day3.Services
 
         public void ExecuteD1S1(string data)
         {
-            Grid<SchematicCell> grid = _gridParseService.Parse(data);
+            Grid<SchematicsCell> grid = _gridParseService.Parse(data);
             IEnumerable<Part> parts = _partParseService.Parse(grid);
 
-            foreach (Part part in parts)
-            {
-                Console.WriteLine($"Part {part.GetId()} validity is {part.IsValid(grid)}.");
-            }
-
-            Console.WriteLine($"The sum of all valid part numbers is {parts.Where(x => x.IsValid(grid)).Sum(x => x.GetId())}.");
+            Console.WriteLine($"The sum of all valid part numbers is {parts.Sum(x => x.GetId())}.");
 
             Console.ReadKey();
         }

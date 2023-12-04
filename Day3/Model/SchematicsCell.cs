@@ -2,11 +2,11 @@
 
 namespace Day3.Model
 {
-    public class SchematicCell : Cell
+    public class SchematicsCell : Cell
     {
         public char Value { get; private set; }
 
-        public SchematicCell(int x, int y, char value) : base(x, y)
+        public SchematicsCell(int x, int y, char value) : base(x, y)
         {
             Value = value;
         }

@@ -11,8 +11,8 @@ namespace Day3
         public static void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton<ISolverService, Day3SolverService>();
-            serviceCollection.AddSingleton<IParseService<string, Grid<SchematicCell>>, GridParseService>();
-            serviceCollection.AddSingleton<IParseService<Grid<SchematicCell>, IEnumerable<Part>>, PartParseService>();
+            serviceCollection.AddSingleton<IParseService<string, Grid<SchematicsCell>>, SchematicsGridParseService>();
+            serviceCollection.AddSingleton<IParseService<Grid<SchematicsCell>, IEnumerable<Part>>, PartParseService>();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Services.Grid
             NorthWest
         }
 
-        private readonly IEnumerable<IEnumerable<TCell>> _cells;
+        protected readonly IEnumerable<IEnumerable<TCell>> _cells;
 
         public Grid(IEnumerable<IEnumerable<TCell>> cells)
         {
