@@ -2,11 +2,16 @@
 {
     public class Part
     {
-        public int Id { get; private set; }
+        public IEnumerable<SchematicsCell> Cells { get; init; }
 
-        public Part(int id)
+        public Part(IEnumerable<SchematicsCell> cells)
         {
-            Id = id;
+            Cells = cells;
+        }
+
+        public int GetId()
+        {
+            return int.Parse(string.Concat(Cells.Select(x => x.CharacterValue)));
         }
     }
 }

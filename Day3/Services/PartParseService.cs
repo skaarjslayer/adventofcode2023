@@ -1,42 +1,44 @@
 ﻿using Day3.Model;
 using Services;
+using Services.Grid;
 
 namespace Day3.Services
 {
-    public class PartParseService : IParseService<IEnumerable<IEnumerable<SchematicsCell>>, IEnumerable<IEnumerable<SchematicsCell>>>
+    public class PartParseService : IParseService<Grid<SchematicsCell>, IEnumerable<Part>>
     {
-        public IEnumerable<IEnumerable<SchematicsCell>> Parse(IEnumerable<IEnumerable<SchematicsCell>> input)
+        public IEnumerable<Part> Parse(Grid<SchematicsCell> input)
         {
-            List<List<SchematicsCell>> parts = new List<List<SchematicsCell>>();
+            List<Part> parts = new List<Part>();
             List<SchematicsCell> partBuffer = new List<SchematicsCell>();
 
-            foreach (IEnumerable<SchematicsCell> row in input)
+            foreach (SchematicsCell cell in input)
             {
-                foreach (SchematicsCell cell in row)
+                if (IsPartNumber(cell))
                 {
-                    if (char.IsDigit(cell.Value))
+                    partBuffer.Add(cell);
+                }
+                else
+                {
+                    if (IsValidPart(partBuffer, input))
                     {
-                        partBuffer.Add(cell);
+                        parts.Add(new Part(new List<SchematicsCell>(partBuffer)));
                     }
-                    else
-                    {
-                        parts.Add(new List<SchematicsCell>(partBuffer));
-                        partBuffer.Clear();
-                    }
+
+                    partBuffer.Clear();
                 }
             }
 
             return parts;
         }
 
-        private bool IsValidPart(IEnumerable<SchematicsCell> cells, SchematicsGrid grid)
+        private bool IsPartNumber(SchematicsCell cell)
         {
-            return cells.Count() > 0 && cells.Any(x => grid.GetNeighbours(x).Values.Any(y => y != null && !char.IsDigit(y.Value) && y.Value != '.'));
+            return char.IsDigit(cell.CharacterValue);
         }
 
-        private int GetPartId(IEnumerable<SchematicsCell> cells)
+        private bool IsValidPart(IEnumerable<SchematicsCell> cells, Grid<SchematicsCell> grid)
         {
-            return int.Parse(string.Concat(cells.Select(x => x.Value)));
+            return cells.Any(x => grid.GetNeighbours(x).Any(y => y != null && !char.IsLetterOrDigit(y.CharacterValue) && y.CharacterValue != '.'));
         }
     }
 }

@@ -2,8 +2,8 @@
 {
     public abstract class Cell
     {
-        public int X { get; private set; }
-        public int Y { get; private set; }
+        public int X { get; init; }
+        public int Y { get; init; }
 
         public Cell(int x, int y)
         {

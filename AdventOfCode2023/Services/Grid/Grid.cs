@@ -6,48 +6,36 @@ namespace Services.Grid
 {
     public class Grid<TCell> : IEnumerable<TCell> where TCell : Cell
     {
-        public enum GridDirection
-        {
-            North,
-            NorthEast,
-            East,
-            SouthEast,
-            South,
-            SouthWest,
-            West,
-            NorthWest
-        }
-
-        protected readonly IEnumerable<IEnumerable<TCell>> _cells;
+        public IEnumerable<IEnumerable<TCell>> Cells { get; init; }
 
         public Grid(IEnumerable<IEnumerable<TCell>> cells)
         {
-            _cells = cells;
+            Cells = cells;
         }
 
-        public IReadOnlyDictionary<GridDirection, TCell> GetNeighbours(TCell cell)
+        public IEnumerable<TCell> GetNeighbours(TCell cell)
         {
-            return new Dictionary<GridDirection, TCell>
+            return new List<TCell>
             {
-                { GridDirection.North, GetNeighbourNorth(cell) },
-                { GridDirection.NorthEast, GetNeighbourNorthEast(cell) },
-                { GridDirection.East, GetNeighbourEast(cell) },
-                { GridDirection.SouthEast, GetNeighbourSouthEast(cell) },
-                { GridDirection.South, GetNeighbourSouth(cell) },
-                { GridDirection.SouthWest, GetNeighbourSouthWest(cell) },
-                { GridDirection.West, GetNeighbourWest(cell) },
-                { GridDirection.NorthWest, GetNeighbourNorthWest(cell) },
+                GetNeighbourNorth(cell),
+                GetNeighbourNorthEast(cell),
+                GetNeighbourEast(cell),
+                GetNeighbourSouthEast(cell),
+                GetNeighbourSouth(cell),
+                GetNeighbourSouthWest(cell),
+                GetNeighbourWest(cell),
+                GetNeighbourNorthWest(cell),
             };
         }
 
-        public IReadOnlyDictionary<GridDirection, TCell> GetNeighboursOrthogonal(TCell cell)
+        public IEnumerable<TCell> GetNeighboursOrthogonal(TCell cell)
         {
-            return new Dictionary<GridDirection, TCell>
+            return new List<TCell>
             {
-                { GridDirection.North, GetNeighbourNorth(cell) },
-                { GridDirection.East, GetNeighbourEast(cell) },
-                { GridDirection.South, GetNeighbourSouth(cell) },
-                { GridDirection.West, GetNeighbourWest(cell) },
+                GetNeighbourNorth(cell),
+                GetNeighbourEast(cell),
+                GetNeighbourSouth(cell),
+                GetNeighbourWest(cell),
             };
         }
 
@@ -57,7 +45,7 @@ namespace Services.Grid
 
             if (y >= 0)
             {
-                return _cells.ElementAt(y).ElementAt(cell.X);
+                return Cells.ElementAt(y).ElementAt(cell.X);
             }
 
             return null;
@@ -67,9 +55,9 @@ namespace Services.Grid
         {
             int y = cell.Y + 1;
 
-            if (y < _cells.Count())
+            if (y < Cells.Count())
             {
-                return _cells.ElementAt(y).ElementAt(cell.X);
+                return Cells.ElementAt(y).ElementAt(cell.X);
             }
 
             return null;
@@ -79,9 +67,9 @@ namespace Services.Grid
         {
             int x = cell.X + 1;
 
-            if (x < _cells.ElementAt(cell.Y).Count())
+            if (x < Cells.ElementAt(cell.Y).Count())
             {
-                return _cells.ElementAt(cell.Y).ElementAt(x);
+                return Cells.ElementAt(cell.Y).ElementAt(x);
             }
 
             return null;
@@ -93,7 +81,7 @@ namespace Services.Grid
 
             if (x > 0)
             {
-                return _cells.ElementAt(cell.Y).ElementAt(x);
+                return Cells.ElementAt(cell.Y).ElementAt(x);
             }
 
             return null;
@@ -169,7 +157,7 @@ namespace Services.Grid
 
         public IEnumerator<TCell> GetEnumerator()
         {
-            foreach(IEnumerable<TCell> row in _cells)
+            foreach(IEnumerable<TCell> row in Cells)
             {
                 foreach (TCell cell in row)
                 {
