@@ -3,32 +3,38 @@ using Services;
 
 namespace Day5.Services
 {
-    public class AlmanacParseService : IParseService<string, Almanac>
+    public class AlmanacParseService : IParseService<string, (IEnumerable<long>, Almanac)>
     {
-        private readonly IParseService<string, IEnumerable<long>> _seedParseService;
-        private readonly IParseService<string, IEnumerable<RangeMap>> _rangeMapParseService;
+        private readonly IParseService<string, IEnumerable<RangeMapping>> _rangeMapParseService;
 
-        public AlmanacParseService(IParseService<string, IEnumerable<long>> seedParseService,
-            IParseService<string, IEnumerable<RangeMap>> rangeMapParseService)
+        public AlmanacParseService(IParseService<string, IEnumerable<RangeMapping>> rangeMapParseService)
         {
-            _seedParseService = seedParseService;
             _rangeMapParseService = rangeMapParseService;
         }
 
-        public Almanac Parse(string input)
+        public (IEnumerable<long>, Almanac) Parse(string input)
         {
-            string[] parts = input.Split("\r\n\r\n");
-            
-            IEnumerable<long> seeds = _seedParseService.Parse(parts[0]);
-            IEnumerable<RangeMap> seedToSoilMaps = _rangeMapParseService.Parse(parts[1]);
-            IEnumerable<RangeMap> soilToFertilizerMaps = _rangeMapParseService.Parse(parts[2]);
-            IEnumerable<RangeMap> fertilizerToWaterMaps = _rangeMapParseService.Parse(parts[3]);
-            IEnumerable<RangeMap> waterToLightMaps = _rangeMapParseService.Parse(parts[4]);
-            IEnumerable<RangeMap> lightToTemperatureMaps = _rangeMapParseService.Parse(parts[5]);
-            IEnumerable<RangeMap> temperatureToHumidityMaps = _rangeMapParseService.Parse(parts[6]);
-            IEnumerable<RangeMap> humidityToLocationMaps = _rangeMapParseService.Parse(parts[7]);
+            string[] rows = input.Split("\r\n\r\n");
 
-            return new Almanac(seeds, seedToSoilMaps, soilToFertilizerMaps, fertilizerToWaterMaps, waterToLightMaps, lightToTemperatureMaps, temperatureToHumidityMaps, humidityToLocationMaps);
+            List<long> seeds = new List<long>();
+
+            string[] seedParts = rows[0].Split(':');
+            string[] seedData = seedParts.Last().Split(' ').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+
+            foreach (string seed in seedData)
+            {
+                seeds.Add(long.Parse(seed));
+            }
+
+            IEnumerable<RangeMapping> seedToSoilMaps = _rangeMapParseService.Parse(rows[1]);
+            IEnumerable<RangeMapping> soilToFertilizerMaps = _rangeMapParseService.Parse(rows[2]);
+            IEnumerable<RangeMapping> fertilizerToWaterMaps = _rangeMapParseService.Parse(rows[3]);
+            IEnumerable<RangeMapping> waterToLightMaps = _rangeMapParseService.Parse(rows[4]);
+            IEnumerable<RangeMapping> lightToTemperatureMaps = _rangeMapParseService.Parse(rows[5]);
+            IEnumerable<RangeMapping> temperatureToHumidityMaps = _rangeMapParseService.Parse(rows[6]);
+            IEnumerable<RangeMapping> humidityToLocationMaps = _rangeMapParseService.Parse(rows[7]);
+
+            return (seeds, new Almanac(seedToSoilMaps, soilToFertilizerMaps, fertilizerToWaterMaps, waterToLightMaps, lightToTemperatureMaps, temperatureToHumidityMaps, humidityToLocationMaps));
         }
     }
 }

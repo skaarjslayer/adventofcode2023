@@ -1,15 +1,14 @@
 ﻿using Day5.Model;
 using Services;
-using System;
 
 namespace Day5.Services
 {
     public class Day5SolverService : ISolverService
     {
-        private readonly IParseService<string, Almanac> _almanacParseService;
-        private readonly IParseService<string, RangedAlmanac> _rangedAlmanacParseService;
+        private readonly IParseService<string, (IEnumerable<long> seeds, Almanac almanac)> _almanacParseService;
+        private readonly IParseService<string, (IEnumerable<Model.Range> seeds, Almanac almanac)> _rangedAlmanacParseService;
 
-        public Day5SolverService(IParseService<string, Almanac> almanacParseService, IParseService<string, RangedAlmanac> rangedAlmanacParseService)
+        public Day5SolverService(IParseService<string, (IEnumerable<long> seeds, Almanac almanac)> almanacParseService, IParseService<string, (IEnumerable<Model.Range> seeds, Almanac almanac)> rangedAlmanacParseService)
         {
             _almanacParseService = almanacParseService;
             _rangedAlmanacParseService = rangedAlmanacParseService;
@@ -25,10 +24,12 @@ namespace Day5.Services
 
         public void ExecuteD1S1(string data)
         {
-            Almanac almanac = _almanacParseService.Parse(data);
+            (IEnumerable<long>, Almanac) formattedData = _almanacParseService.Parse(data);
+            IEnumerable<long> seeds = formattedData.Item1;
+            Almanac almanac = formattedData.Item2;
 
             List<long> locations = new List<long>();
-            foreach (long seed in almanac.Seeds)
+            foreach (long seed in seeds)
             {
                 long value = almanac.Convert(seed, almanac.SeedToSoilMaps);
                 value = almanac.Convert(value, almanac.SoilToFertilizerMaps);
@@ -47,24 +48,25 @@ namespace Day5.Services
 
         public void ExecuteD1S2(string data)
         {
-            RangedAlmanac almanac = _rangedAlmanacParseService.Parse(data);
+            (IEnumerable<Model.Range>, Almanac) formattedData = _rangedAlmanacParseService.Parse(data);
+            IEnumerable<Model.Range> seeds = formattedData.Item1;
+            Almanac almanac = formattedData.Item2;
 
-            List<(long, long)> locationRanges = new List<(long, long)>();
-
-            foreach ((long, long) seed in almanac.Seeds)
+            List<Model.Range> locationRanges = new List<Model.Range>();
+            foreach (Model.Range seed in seeds)
             {
-                IEnumerable<(long, long)> ranges = almanac.Convert(new List<(long, long)>() { (seed.Item1, seed.Item1 + seed.Item2 - 1) }, almanac.SeedToSoilMaps);
+                IEnumerable<Model.Range> ranges = almanac.Convert(new List<Model.Range>() { seed }, almanac.SeedToSoilMaps);
                 ranges = almanac.Convert(ranges, almanac.SoilToFertilizerMaps);
                 ranges = almanac.Convert(ranges, almanac.FertilizerToWaterMaps);
                 ranges = almanac.Convert(ranges, almanac.WaterToLightMaps);
                 ranges = almanac.Convert(ranges, almanac.LightToTemperatureMaps);
                 ranges = almanac.Convert(ranges, almanac.TemperatureToHumidityMaps);
                 ranges = almanac.Convert(ranges, almanac.HumidityToLocationMaps);
-
                 locationRanges.AddRange(ranges);
             }
 
-            Console.WriteLine($"Smallest range: {locationRanges.Min(x => x.Item1)}");
+            long r = locationRanges.Min(x => x.Start);
+            Console.WriteLine($"The lowest location value is {r}");
         }
     }
 }
