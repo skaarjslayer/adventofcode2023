@@ -15,7 +15,8 @@ namespace AdventOfCode2023
             // Day1.Module.ConfigureServices(services);
             // Day2.Module.ConfigureServices(services);
             // Day3.Module.ConfigureServices(services);
-            Day4.Module.ConfigureServices(services);
+            // Day4.Module.ConfigureServices(services);
+            Day5.Module.ConfigureServices(services);
 
             IServiceProvider serviceProvider = services.BuildServiceProvider();
 
