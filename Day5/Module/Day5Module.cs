@@ -11,7 +11,9 @@ namespace Day5
         {
             serviceCollection.AddSingleton<ISolverService, Day5SolverService>();
             serviceCollection.AddSingleton<IParseService<string, Almanac>, AlmanacParseService>();
-            serviceCollection.AddSingleton<IParseService<string, IEnumerable<ulong>>, SeedParseService>();
+            serviceCollection.AddSingleton<IParseService<string, RangedAlmanac>, RangedAlmanacParseService>();
+            serviceCollection.AddSingleton<IParseService<string, IEnumerable<long>>, SeedParseService>();
+            serviceCollection.AddSingleton<IParseService<string, IEnumerable<(long, long)>>, RangedSeedParseService>();
             serviceCollection.AddSingleton<IParseService<string, IEnumerable<RangeMap>>, RangeMapParseService>();
         }
     }

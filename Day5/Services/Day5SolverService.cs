@@ -1,15 +1,18 @@
 ﻿using Day5.Model;
 using Services;
+using System;
 
 namespace Day5.Services
 {
     public class Day5SolverService : ISolverService
     {
         private readonly IParseService<string, Almanac> _almanacParseService;
+        private readonly IParseService<string, RangedAlmanac> _rangedAlmanacParseService;
 
-        public Day5SolverService(IParseService<string, Almanac> almanacParseService)
+        public Day5SolverService(IParseService<string, Almanac> almanacParseService, IParseService<string, RangedAlmanac> rangedAlmanacParseService)
         {
             _almanacParseService = almanacParseService;
+            _rangedAlmanacParseService = rangedAlmanacParseService;
         }
 
         public void Execute()
@@ -24,10 +27,10 @@ namespace Day5.Services
         {
             Almanac almanac = _almanacParseService.Parse(data);
 
-            List<ulong> locations = new List<ulong>();
-            foreach (ulong seed in almanac.Seeds)
+            List<long> locations = new List<long>();
+            foreach (long seed in almanac.Seeds)
             {
-                ulong value = almanac.Convert(seed, almanac.SeedToSoilMaps);
+                long value = almanac.Convert(seed, almanac.SeedToSoilMaps);
                 value = almanac.Convert(value, almanac.SoilToFertilizerMaps);
                 value = almanac.Convert(value, almanac.FertilizerToWaterMaps);
                 value = almanac.Convert(value, almanac.WaterToLightMaps);
@@ -44,7 +47,24 @@ namespace Day5.Services
 
         public void ExecuteD1S2(string data)
         {
+            RangedAlmanac almanac = _rangedAlmanacParseService.Parse(data);
 
+            List<(long, long)> locationRanges = new List<(long, long)>();
+
+            foreach ((long, long) seed in almanac.Seeds)
+            {
+                IEnumerable<(long, long)> ranges = almanac.Convert(new List<(long, long)>() { (seed.Item1, seed.Item1 + seed.Item2 - 1) }, almanac.SeedToSoilMaps);
+                ranges = almanac.Convert(ranges, almanac.SoilToFertilizerMaps);
+                ranges = almanac.Convert(ranges, almanac.FertilizerToWaterMaps);
+                ranges = almanac.Convert(ranges, almanac.WaterToLightMaps);
+                ranges = almanac.Convert(ranges, almanac.LightToTemperatureMaps);
+                ranges = almanac.Convert(ranges, almanac.TemperatureToHumidityMaps);
+                ranges = almanac.Convert(ranges, almanac.HumidityToLocationMaps);
+
+                locationRanges.AddRange(ranges);
+            }
+
+            Console.WriteLine($"Smallest range: {locationRanges.Min(x => x.Item1)}");
         }
     }
 }

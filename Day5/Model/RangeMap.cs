@@ -2,11 +2,13 @@
 {
     public class RangeMap
     {
-        public ulong DestinationStart { get; init; }
-        public ulong SourceStart { get; init; }
-        public ulong Length { get; init; }
+        public long DestinationStart { get; init; }
+        public long SourceStart { get; init; }
+        public long SourceEnd => SourceStart + Length - 1;
+        public long DestinationEnd => DestinationStart + Length - 1;
+        public long Length { get; init; }
 
-        public RangeMap(ulong destinationStart, ulong sourceStart, ulong length)
+        public RangeMap(long destinationStart, long sourceStart, long length)
         {
             DestinationStart = destinationStart;
             SourceStart = sourceStart;

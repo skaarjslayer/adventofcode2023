@@ -4,7 +4,7 @@ namespace Day5.Model
 {
     public class Almanac
     {
-        public IEnumerable<ulong> Seeds { get; init; }
+        public IEnumerable<long> Seeds { get; init; }
         public IEnumerable<RangeMap> SeedToSoilMaps { get; init; }
         public IEnumerable<RangeMap> SoilToFertilizerMaps { get; init; }
         public IEnumerable<RangeMap> FertilizerToWaterMaps { get; init; }
@@ -13,7 +13,7 @@ namespace Day5.Model
         public IEnumerable<RangeMap> TemperatureToHumidityMaps { get; init; }
         public IEnumerable<RangeMap> HumidityToLocationMaps { get; init; }
 
-        public Almanac(IEnumerable<ulong> seeds, IEnumerable<RangeMap> seedToSoilMaps, IEnumerable<RangeMap> soilToFertilizerMaps, IEnumerable<RangeMap> fertilizerToWaterMaps, IEnumerable<RangeMap> waterToLightMaps, IEnumerable<RangeMap> lightToTemperatureMaps, IEnumerable<RangeMap> temperatureToHumidityMaps, IEnumerable<RangeMap> humidityToLocationMaps)
+        public Almanac(IEnumerable<long> seeds, IEnumerable<RangeMap> seedToSoilMaps, IEnumerable<RangeMap> soilToFertilizerMaps, IEnumerable<RangeMap> fertilizerToWaterMaps, IEnumerable<RangeMap> waterToLightMaps, IEnumerable<RangeMap> lightToTemperatureMaps, IEnumerable<RangeMap> temperatureToHumidityMaps, IEnumerable<RangeMap> humidityToLocationMaps)
         {
             Seeds = seeds;
             SeedToSoilMaps = seedToSoilMaps.OrderBy(x => x.SourceStart);
@@ -25,13 +25,13 @@ namespace Day5.Model
             HumidityToLocationMaps = humidityToLocationMaps.OrderBy(x => x.SourceStart);
         }
 
-        public ulong Convert(ulong value, IEnumerable<RangeMap> rangeMaps)
+        public long Convert(long value, IEnumerable<RangeMap> rangeMaps)
         {
             RangeMap rangeMap = rangeMaps.Where(x => value >= x.SourceStart && value < x.SourceStart + x.Length).FirstOrDefault();
 
             if (rangeMap != null)
             {
-                ulong difference = value - rangeMap.SourceStart;
+                long difference = value - rangeMap.SourceStart;
                 return rangeMap.DestinationStart + difference;
             }
 

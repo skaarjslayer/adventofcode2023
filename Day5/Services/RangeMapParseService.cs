@@ -16,7 +16,7 @@ namespace Day5.Services
             {
                 string[] numbers = range.Split(' ');
 
-                rangeMaps.Add(new RangeMap(ulong.Parse(numbers[0]), ulong.Parse(numbers[1]), ulong.Parse(numbers[2])));
+                rangeMaps.Add(new RangeMap(long.Parse(numbers[0]), long.Parse(numbers[1]), long.Parse(numbers[2])));
             }
 
             return rangeMaps;

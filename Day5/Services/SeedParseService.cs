@@ -2,18 +2,18 @@
 
 namespace Day5.Services
 {
-    public class SeedParseService : IParseService<string, IEnumerable<ulong>>
+    public class SeedParseService : IParseService<string, IEnumerable<long>>
     {
-        public IEnumerable<ulong> Parse(string input)
+        public IEnumerable<long> Parse(string input)
         {
-            List<ulong> seeds = new List<ulong>();
+            List<long> seeds = new List<long>();
 
             string[] parts = input.Split(':');
             string[] seedData = parts.Last().Split(' ').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
 
             foreach (string seed in seedData)
             {
-                seeds.Add(ulong.Parse(seed));
+                seeds.Add(long.Parse(seed));
             }
 
             return seeds;
