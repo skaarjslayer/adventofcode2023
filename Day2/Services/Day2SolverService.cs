@@ -14,13 +14,13 @@ namespace Day2.Services
 
         public void Execute()
         {
-            ExecuteD1S1(Day2.Resources.Resource.Test);
-            ExecuteD1S1(Day2.Resources.Resource.D2);
-            ExecuteD1S2(Day2.Resources.Resource.Test);
-            ExecuteD1S2(Day2.Resources.Resource.D2);
+            ExecuteS1(Day2.Resources.Resource.Test);
+            ExecuteS1(Day2.Resources.Resource.D2);
+            ExecuteS2(Day2.Resources.Resource.Test);
+            ExecuteS2(Day2.Resources.Resource.D2);
         }
 
-        public void ExecuteD1S1(string data)
+        public void ExecuteS1(string data)
         {
             Subset legalSubset = new Subset(12, 13, 14);
             IEnumerable<Game> games = _gameParseService.Parse(data);
@@ -35,7 +35,7 @@ namespace Day2.Services
             Console.ReadKey();
         }
 
-        public void ExecuteD1S2(string data)
+        public void ExecuteS2(string data)
         {
             IEnumerable<Game> games = _gameParseService.Parse(data);
 

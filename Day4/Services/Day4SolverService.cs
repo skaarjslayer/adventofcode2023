@@ -17,13 +17,13 @@ namespace Day4.Services
 
         public void Execute()
         {
-            ExecuteD1S1(Day4.Resources.Resource.Test);
-            ExecuteD1S1(Day4.Resources.Resource.D4);
-            ExecuteD1S2(Day4.Resources.Resource.Test);
-            ExecuteD1S2(Day4.Resources.Resource.D4);
+            ExecuteS1(Day4.Resources.Resource.Test);
+            ExecuteS1(Day4.Resources.Resource.D4);
+            ExecuteS2(Day4.Resources.Resource.Test);
+            ExecuteS2(Day4.Resources.Resource.D4);
         }
 
-        public void ExecuteD1S1(string data)
+        public void ExecuteS1(string data)
         {
             IEnumerable<Scratchcard> scratchcards = _scratchcardParseService.Parse(data);
 
@@ -32,7 +32,7 @@ namespace Day4.Services
             Console.ReadKey();
         }
 
-        public void ExecuteD1S2(string data)
+        public void ExecuteS2(string data)
         {
             IEnumerable<Scratchcard> scratchcards = _scratchcardParseService.Parse(data);
             IEnumerable<int> winnings = _winningsParseService.Parse(scratchcards);

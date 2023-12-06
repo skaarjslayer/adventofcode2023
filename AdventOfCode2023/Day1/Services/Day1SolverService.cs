@@ -20,13 +20,13 @@ namespace Day1.Services
 
         public void Execute()
         {
-            ExecuteD1S1(Day1.Resources.Resource.S1Test);
-            ExecuteD1S1(Day1.Resources.Resource.D1);
-            ExecuteD1S2(Day1.Resources.Resource.S2Test);
-            ExecuteD1S2(Day1.Resources.Resource.D1);
+            ExecuteS1(Day1.Resources.Resource.S1Test);
+            ExecuteS1(Day1.Resources.Resource.D1);
+            ExecuteS2(Day1.Resources.Resource.S2Test);
+            ExecuteS2(Day1.Resources.Resource.D1);
         }
 
-        public void ExecuteD1S1(string data)
+        public void ExecuteS1(string data)
         {
             IEnumerable<Calibration> calibrations = this.calibrationParseService.Parse(data);
 
@@ -40,7 +40,7 @@ namespace Day1.Services
             Console.ReadKey();
         }
 
-        public void ExecuteD1S2(string data)
+        public void ExecuteS2(string data)
         {
             IEnumerable<Calibration> calibrations = this.calibrationParseService.Parse(data);
             List<string> wordNumbers = new List<string>

@@ -21,13 +21,13 @@ namespace Day3.Services
 
         public void Execute()
         {
-            ExecuteD1S1(Day3.Resources.Resource.Test);
-            ExecuteD1S1(Day3.Resources.Resource.D3);
-            ExecuteD1S2(Day3.Resources.Resource.Test);
-            ExecuteD1S2(Day3.Resources.Resource.D3);
+            ExecuteS1(Day3.Resources.Resource.Test);
+            ExecuteS1(Day3.Resources.Resource.D3);
+            ExecuteS2(Day3.Resources.Resource.Test);
+            ExecuteS2(Day3.Resources.Resource.D3);
         }
 
-        public void ExecuteD1S1(string data)
+        public void ExecuteS1(string data)
         {
             Grid<SchematicsCell> grid = _gridParseService.Parse(data);
             IEnumerable<Part> parts = _partParseService.Parse(grid);
@@ -37,7 +37,7 @@ namespace Day3.Services
             Console.ReadKey();
         }
 
-        public void ExecuteD1S2(string data)
+        public void ExecuteS2(string data)
         {
             Grid<SchematicsCell> grid = _gridParseService.Parse(data);
             IEnumerable<Part> parts = _partParseService.Parse(grid);

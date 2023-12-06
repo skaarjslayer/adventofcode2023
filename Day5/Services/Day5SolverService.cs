@@ -16,13 +16,13 @@ namespace Day5.Services
 
         public void Execute()
         {
-            ExecuteD1S1(Day5.Resources.Resource.Test);
-            ExecuteD1S1(Day5.Resources.Resource.D5);
-            ExecuteD1S2(Day5.Resources.Resource.Test);
-            ExecuteD1S2(Day5.Resources.Resource.D5);
+            ExecuteS1(Day5.Resources.Resource.Test);
+            ExecuteS1(Day5.Resources.Resource.D5);
+            ExecuteS2(Day5.Resources.Resource.Test);
+            ExecuteS2(Day5.Resources.Resource.D5);
         }
 
-        public void ExecuteD1S1(string data)
+        public void ExecuteS1(string data)
         {
             (IEnumerable<long>, Almanac) formattedData = _almanacParseService.Parse(data);
             IEnumerable<long> seeds = formattedData.Item1;
@@ -46,7 +46,7 @@ namespace Day5.Services
             Console.ReadKey();
         }
 
-        public void ExecuteD1S2(string data)
+        public void ExecuteS2(string data)
         {
             (IEnumerable<Model.Range>, Almanac) formattedData = _rangedAlmanacParseService.Parse(data);
             IEnumerable<Model.Range> seeds = formattedData.Item1;

@@ -16,13 +16,13 @@ namespace Day6.Services
 
         public void Execute()
         {
-            ExecuteD1S1(Day6.Resources.Resource.Test);
-            ExecuteD1S1(Day6.Resources.Resource.D6);
-            ExecuteD1S2(Day6.Resources.Resource.Test);
-            ExecuteD1S2(Day6.Resources.Resource.D6);
+            ExecuteS1(Day6.Resources.Resource.Test);
+            ExecuteS1(Day6.Resources.Resource.D6);
+            ExecuteS2(Day6.Resources.Resource.Test);
+            ExecuteS2(Day6.Resources.Resource.D6);
         }
 
-        public void ExecuteD1S1(string data)
+        public void ExecuteS1(string data)
         {
             IEnumerable<Record> records = _recordParseService.Parse(data);
             IEnumerable<int> winningButtonTimeCounts = GetWinningButtonTimeCounts(records);
@@ -32,7 +32,7 @@ namespace Day6.Services
             Console.ReadKey();
         }
 
-        public void ExecuteD1S2(string data)
+        public void ExecuteS2(string data)
         {
             Record record = _correctedRecordParseService.Parse(data);
             IEnumerable<int> winningButtonTimeCounts = GetWinningButtonTimeCounts(new List<Record>() { record });
