@@ -13,7 +13,6 @@ namespace Day6.Services
             string[] parts = input.Split("\r\n");
             string[] timesData = parts.First().Split(':');
             string[] distancesData = parts.Last().Split(':');
-
             string[] times = timesData.Last().Split(' ').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
             string[] distances = distancesData.Last().Split(' ').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
 

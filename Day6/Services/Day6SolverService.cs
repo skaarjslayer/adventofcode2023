@@ -6,10 +6,12 @@ namespace Day6.Services
     public class Day6SolverService : ISolverService
     {
         private readonly IParseService<string, IEnumerable<Record>> _recordParseService;
+        private readonly IParseService<string, Record> _correctedRecordParseService;
 
-        public Day6SolverService(IParseService<string, IEnumerable<Record>> recordParseService)
+        public Day6SolverService(IParseService<string, IEnumerable<Record>> recordParseService, IParseService<string, Record> correctedRecordParseService)
         {
             _recordParseService = recordParseService;
+            _correctedRecordParseService = correctedRecordParseService;
         }
 
         public void Execute()
@@ -23,14 +25,33 @@ namespace Day6.Services
         public void ExecuteD1S1(string data)
         {
             IEnumerable<Record> records = _recordParseService.Parse(data);
+            IEnumerable<int> winningButtonTimeCounts = GetWinningButtonTimeCounts(records);
 
-            List<int> optionsCount = new List<int>();
+            Console.WriteLine($"The product of all winning button hold times is {winningButtonTimeCounts.Aggregate(1, (x, y) => x * y)}");
+
+            Console.ReadKey();
+        }
+
+        public void ExecuteD1S2(string data)
+        {
+            Record record = _correctedRecordParseService.Parse(data);
+            IEnumerable<int> winningButtonTimeCounts = GetWinningButtonTimeCounts(new List<Record>() { record });
+
+            Console.WriteLine($"The product of all winning button hold times is {winningButtonTimeCounts.Aggregate(1, (x, y) => x * y)}");
+
+            Console.ReadKey();
+        }
+
+        private IEnumerable<int> GetWinningButtonTimeCounts(IEnumerable<Record> records)
+        {
+            List<int> winningButtonTimeCounts = new List<int>();
+
             foreach (Record record in records)
             {
-                List<long> options = new List<long>();
+                List<long> winningButtomTimes = new List<long>();
 
                 long time = record.Time;
-                
+
                 for (int i = 0; i < time; i++)
                 {
                     long buttonHoldTime = i;
@@ -39,22 +60,14 @@ namespace Day6.Services
 
                     if (distanceTravelled > record.Distance)
                     {
-                        options.Add(buttonHoldTime);
+                        winningButtomTimes.Add(buttonHoldTime);
                     }
                 }
 
-                optionsCount.Add(options.Count);
+                winningButtonTimeCounts.Add(winningButtomTimes.Count);
             }
 
-            Console.WriteLine($"The product of all winning button hold times is {optionsCount.Aggregate(1, (x, y) => x * y)}");
-
-            Console.ReadKey();
-        }
-
-        public void ExecuteD1S2(string data)
-        {
-     //       IEnumerable<Record> records = _recordParseService.Parse(data);
-
+            return winningButtonTimeCounts;
         }
     }
 }

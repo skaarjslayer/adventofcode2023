@@ -10,7 +10,8 @@ namespace Day6
         public static void ConfigureServices(IServiceCollection serviceCollection)
         {
             serviceCollection.AddSingleton<ISolverService, Day6SolverService>();
-            serviceCollection.AddSingleton<IParseService<string, IEnumerable<Record>>, KernCorrectedRecordParseService>();
+            serviceCollection.AddSingleton<IParseService<string, IEnumerable<Record>>, RecordParseService>();
+            serviceCollection.AddSingleton<IParseService<string, Record>, CorrectedRecordParseService>();
         }
     }
 }
