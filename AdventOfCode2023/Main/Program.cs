@@ -2,6 +2,7 @@
 using Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -29,19 +30,36 @@ namespace AdventOfCode2023
 
         private static void AutoConfigureServices(IServiceCollection services)
         {
-            string[] specificNames = new[] { "Main", "Services" };
-            string dayPattern = @"^Day\d+$";
+            LoadAllDayAssemblies();
 
-            var assem = AppDomain.CurrentDomain.GetAssemblies();
-            IEnumerable<Assembly> assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(assembly =>
-            {
-                string name = assembly.GetName().Name;
-                return specificNames.Contains(name) || Regex.IsMatch(name, dayPattern);
-            });
+            IEnumerable<Assembly> assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(assembly => Regex.IsMatch(assembly.GetName().Name, @"^Day\d+$"));
 
             foreach (Assembly assembly in assemblies)
             {
-                Console.WriteLine(assembly.FullName);
+                IEnumerable<Type> implementationTypes = assembly.GetTypes().Where(type => type.IsClass && !type.IsInterface && !type.IsAbstract);
+
+                foreach (Type implementationType in implementationTypes)
+                {
+                    IEnumerable<Type> interfaces = implementationType.GetInterfaces();
+
+                    foreach (Type interfaceType in interfaces)
+                    {
+                        services.AddSingleton(interfaceType, implementationType); // Assuming all services for Advent of Code puzzles will be singletons. This might break later.
+                    }
+                }
+            }
+        }
+
+        private static void LoadAllDayAssemblies()
+        {
+            Regex assemblyNamePattern = new Regex(@"Day\d+\.dll");
+
+            foreach (string filePath in Directory.EnumerateFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll"))
+            {
+                if (assemblyNamePattern.IsMatch(Path.GetFileName(filePath)))
+                {
+                    Assembly.LoadFrom(filePath);
+                }
             }
         }
     }
