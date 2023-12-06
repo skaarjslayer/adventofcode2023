@@ -2,6 +2,9 @@
 using Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace AdventOfCode2023
 {
@@ -10,14 +13,7 @@ namespace AdventOfCode2023
         static void Main(string[] args)
         {
             IServiceCollection services = new ServiceCollection();
-
-            ConfigureServices(services);
-            // Day1.Module.ConfigureServices(services);
-            // Day2.Module.ConfigureServices(services);
-            // Day3.Module.ConfigureServices(services);
-            // Day4.Module.ConfigureServices(services);
-            // Day5.Module.ConfigureServices(services);
-            Day6.Module.ConfigureServices(services);
+            AutoConfigureServices(services);
 
             IServiceProvider serviceProvider = services.BuildServiceProvider();
 
@@ -31,9 +27,22 @@ namespace AdventOfCode2023
             }
         }
 
-        private static void ConfigureServices(IServiceCollection services)
+        private static void AutoConfigureServices(IServiceCollection services)
         {
+            string[] specificNames = new[] { "Main", "Services" };
+            string dayPattern = @"^Day\d+$";
 
+            var assem = AppDomain.CurrentDomain.GetAssemblies();
+            IEnumerable<Assembly> assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(assembly =>
+            {
+                string name = assembly.GetName().Name;
+                return specificNames.Contains(name) || Regex.IsMatch(name, dayPattern);
+            });
+
+            foreach (Assembly assembly in assemblies)
+            {
+                Console.WriteLine(assembly.FullName);
+            }
         }
     }
 }
