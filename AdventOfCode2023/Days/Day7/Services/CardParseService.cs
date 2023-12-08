@@ -3,7 +3,7 @@ using Services;
 
 namespace Day7.Services
 {
-    public class CardParseService : IParseService<char, Card>
+    public class CardParseService : IParseService<string, IEnumerable<Card>>
     {
         private readonly Dictionary<char, Card> _cards = new Dictionary<char, Card>();
 
@@ -15,18 +15,24 @@ namespace Day7.Services
             {
                 string[] cardData = part.Split(' ');
 
-                _cards.Add(char.Parse(cardData.First()), new Card(int.Parse(cardData.Last())));
+                char symbol = char.Parse(cardData.First());
+                _cards.Add(symbol, new Card(symbol, int.Parse(cardData.Last())));
             }
         }
 
-        public Card Parse(char input)
+        public IEnumerable<Card> Parse(string input)
         {
-            if (_cards.TryGetValue(input, out Card card))
+            List<Card> cards = new List<Card>();
+
+            foreach (char @char in input)
             {
-                return card;
+                if (_cards.TryGetValue(@char, out Card card))
+                {
+                    cards.Add(card);
+                }
             }
 
-            return null;
+            return cards;
         }
     }
 }

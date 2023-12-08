@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Day7.Model;
+using Microsoft.Extensions.DependencyInjection;
 using Services;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace AdventOfCode2023
         static void Main(string[] args)
         {
             IServiceCollection services = new ServiceCollection();
+            ConfigureServices(services);
             AutoConfigureServices(services);
 
             IServiceProvider serviceProvider = services.BuildServiceProvider();
@@ -26,6 +28,11 @@ namespace AdventOfCode2023
                     solverService.Execute();
                 }
             }
+        }
+
+        private static void ConfigureServices(IServiceCollection services)
+        {
+            services.AddTransient<Card>();
         }
 
         private static void AutoConfigureServices(IServiceCollection services)
