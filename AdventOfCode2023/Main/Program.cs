@@ -50,7 +50,7 @@ namespace AdventOfCode2023
 
                 foreach (Type implementationType in implementationTypes)
                 {
-                    if (IsService(implementationType))
+                    if (IsSingleton(implementationType))
                     {
                         serviceCollection.AddSingleton(implementationType);
                     }
@@ -61,7 +61,7 @@ namespace AdventOfCode2023
 
                     foreach (Type interfaceType in implementationType.GetInterfaces())
                     {
-                        if (IsService(implementationType))
+                        if (IsSingleton(implementationType))
                         {
                             serviceCollection.AddSingleton(interfaceType, implementationType);
                         }
@@ -74,11 +74,12 @@ namespace AdventOfCode2023
             }
         }
 
-        private static bool IsService(Type type)
+        private static bool IsSingleton(Type type)
         {
             const string ServiceName = "Service";
+            const string FactoryName = "Factory";
 
-            return type.Name.EndsWith(ServiceName);
+            return type.Name.EndsWith(ServiceName) || type.Name.EndsWith(FactoryName);
         }
     }
 }
