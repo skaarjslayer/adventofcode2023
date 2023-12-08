@@ -1,5 +1,4 @@
-﻿using Day7.Model;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Services;
 using System;
 using System.Collections.Generic;
@@ -15,8 +14,8 @@ namespace AdventOfCode2023
         static void Main(string[] args)
         {
             IServiceCollection services = new ServiceCollection();
-            ConfigureServices(services);
-            AutoConfigureServices(services);
+            LoadAssemblies(new Regex(@"Day\d+\.dll"));
+            AutoConfigureServices(services, AppDomain.CurrentDomain.GetAssemblies().Where(assembly => Regex.IsMatch(assembly.GetName().Name, @"^Day\d+$")));
 
             IServiceProvider serviceProvider = services.BuildServiceProvider();
 
@@ -30,44 +29,56 @@ namespace AdventOfCode2023
             }
         }
 
-        private static void ConfigureServices(IServiceCollection services)
+        private static void LoadAssemblies(Regex assemblyNamePattern)
         {
-            services.AddTransient<Card>();
-        }
+            const string DllExtension = "*.dll";
 
-        private static void AutoConfigureServices(IServiceCollection services)
-        {
-            LoadAllDayAssemblies();
-
-            IEnumerable<Assembly> assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(assembly => Regex.IsMatch(assembly.GetName().Name, @"^Day\d+$"));
-
-            foreach (Assembly assembly in assemblies)
-            {
-                IEnumerable<Type> implementationTypes = assembly.GetTypes().Where(type => type.IsClass && !type.IsInterface && !type.IsAbstract);
-
-                foreach (Type implementationType in implementationTypes)
-                {
-                    IEnumerable<Type> interfaces = implementationType.GetInterfaces();
-
-                    foreach (Type interfaceType in interfaces)
-                    {
-                        services.AddSingleton(interfaceType, implementationType); // Assuming all services for Advent of Code puzzles will be singletons. This might break later.
-                    }
-                }
-            }
-        }
-
-        private static void LoadAllDayAssemblies()
-        {
-            Regex assemblyNamePattern = new Regex(@"Day\d+\.dll");
-
-            foreach (string filePath in Directory.EnumerateFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll"))
+            foreach (string filePath in Directory.EnumerateFiles(AppDomain.CurrentDomain.BaseDirectory, DllExtension))
             {
                 if (assemblyNamePattern.IsMatch(Path.GetFileName(filePath)))
                 {
                     Assembly.LoadFrom(filePath);
                 }
             }
+        }
+
+        private static void AutoConfigureServices(IServiceCollection serviceCollection, IEnumerable<Assembly> assemblies)
+        {
+            foreach (Assembly assembly in assemblies)
+            {
+                IEnumerable<Type> implementationTypes = assembly.GetTypes().Where(type => type.IsClass && !type.IsInterface && !type.IsAbstract);
+
+                foreach (Type implementationType in implementationTypes)
+                {
+                    if (IsService(implementationType))
+                    {
+                        serviceCollection.AddSingleton(implementationType);
+                    }
+                    else
+                    {
+                        serviceCollection.AddTransient(implementationType);
+                    }
+
+                    foreach (Type interfaceType in implementationType.GetInterfaces())
+                    {
+                        if (IsService(implementationType))
+                        {
+                            serviceCollection.AddSingleton(interfaceType, implementationType);
+                        }
+                        else
+                        {
+                            serviceCollection.AddTransient(interfaceType, implementationType);
+                        }
+                    }
+                }
+            }
+        }
+
+        private static bool IsService(Type type)
+        {
+            const string ServiceName = "Service";
+
+            return type.Name.EndsWith(ServiceName);
         }
     }
 }
