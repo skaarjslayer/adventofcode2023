@@ -2,10 +2,12 @@
 {
     public class Card
     {
+        public char Symbol { get; init; }
         public int Value { get; init; }
 
-        public Card(int value)
+        public Card(char symbol, int value)
         {
+            Symbol = symbol;
             Value = value;
         }
     }

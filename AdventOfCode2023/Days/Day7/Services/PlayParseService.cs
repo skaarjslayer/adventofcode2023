@@ -5,9 +5,16 @@ namespace Day7.Services
 {
     public class PlayParseService : IParseService<string, IEnumerable<Play>>
     {
+        private readonly IParseService<string, IEnumerable<Card>> _cardParseService;
+
+        public PlayParseService(IParseService<string, IEnumerable<Card>> cardParseService)
+        {
+            _cardParseService = cardParseService;
+        }
+
         public IEnumerable<Play> Parse(string input)
         {
-            List<Play> hands = new List<Play>();
+            List<Play> plays = new List<Play>();
 
             string[] parts = input.Split("\r\n");
 
@@ -15,10 +22,10 @@ namespace Day7.Services
             {
                 string[] data = part.Split(' ');
 
-                hands.Add(new Hand(data.First(), int.Parse(data.Last())));
+                plays.Add(new Play(_cardParseService.Parse(data.First()), int.Parse(data.Last())));
             }
 
-            return hands;
+            return plays;
         }
     }
 }
