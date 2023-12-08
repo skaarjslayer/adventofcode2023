@@ -3,7 +3,7 @@ using Services;
 
 namespace Day7.Services
 {
-    public class HandTypeParseService : IParseService<IEnumerable<Card>, HandType>
+    public class HandTypeParseService : IFactory<IEnumerable<Card>, HandType>
     {
         private const string FiveOfAKindKey = "5K";
         private const string FourOfAKindKey = "4K";
@@ -27,7 +27,7 @@ namespace Day7.Services
             }
         }
 
-        public HandType Parse(IEnumerable<Card> input)
+        public HandType Create(IEnumerable<Card> input)
         {
             IEnumerable<char> handSymbols = input.Select(x => x.Symbol);
             HashSet<char> uniqueCharacters = new HashSet<char>(handSymbols);

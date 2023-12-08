@@ -3,13 +3,13 @@ using Services;
 
 namespace Day7.Services
 {
-    public class CardParseService : IParseService<string, IEnumerable<Card>>
+    public class CardParseService : IFactory<string, IEnumerable<Card>>
     {
         private readonly Dictionary<char, Card> _cards = new Dictionary<char, Card>();
 
-        public CardParseService()
+        public CardParseService(string resourcePath)
         {
-            string[] parts = Day7.Resources.Resource.Cards.Split("\r\n");
+            string[] parts = resourcePath.Split("\r\n");
 
             foreach (string part in parts)
             {
@@ -20,7 +20,7 @@ namespace Day7.Services
             }
         }
 
-        public IEnumerable<Card> Parse(string input)
+        public IEnumerable<Card> Create(string input)
         {
             List<Card> cards = new List<Card>();
 

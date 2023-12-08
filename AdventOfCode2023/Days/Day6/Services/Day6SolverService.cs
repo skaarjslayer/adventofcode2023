@@ -5,10 +5,10 @@ namespace Day6.Services
 {
     public class Day6SolverService : ISolverService
     {
-        private readonly IParseService<string, IEnumerable<Record>> _recordParseService;
-        private readonly IParseService<string, Record> _correctedRecordParseService;
+        private readonly IFactory<string, IEnumerable<Record>> _recordParseService;
+        private readonly IFactory<string, Record> _correctedRecordParseService;
 
-        public Day6SolverService(IParseService<string, IEnumerable<Record>> recordParseService, IParseService<string, Record> correctedRecordParseService)
+        public Day6SolverService(IFactory<string, IEnumerable<Record>> recordParseService, IFactory<string, Record> correctedRecordParseService)
         {
             _recordParseService = recordParseService;
             _correctedRecordParseService = correctedRecordParseService;
@@ -24,7 +24,7 @@ namespace Day6.Services
 
         public void ExecuteS1(string data)
         {
-            IEnumerable<Record> records = _recordParseService.Parse(data);
+            IEnumerable<Record> records = _recordParseService.Create(data);
             IEnumerable<int> winningButtonTimeCounts = GetWinningButtonTimeCounts(records);
 
             Console.WriteLine($"The product of all winning button hold times is {winningButtonTimeCounts.Aggregate(1, (x, y) => x * y)}");
@@ -34,7 +34,7 @@ namespace Day6.Services
 
         public void ExecuteS2(string data)
         {
-            Record record = _correctedRecordParseService.Parse(data);
+            Record record = _correctedRecordParseService.Create(data);
             IEnumerable<int> winningButtonTimeCounts = GetWinningButtonTimeCounts(new List<Record>() { record });
 
             Console.WriteLine($"The product of all winning button hold times is {winningButtonTimeCounts.Aggregate(1, (x, y) => x * y)}");

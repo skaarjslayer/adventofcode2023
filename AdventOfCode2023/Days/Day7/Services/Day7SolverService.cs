@@ -5,10 +5,10 @@ namespace Day7.Services
 {
     public class Day7SolverService : ISolverService
     {
-        private readonly IParseService<string, IEnumerable<Play>> _playParseService;
-        private readonly IParseService<IEnumerable<Card>, HandType> _handTypeParseService;
+        private readonly IFactory<string, IEnumerable<Play>> _playParseService;
+        private readonly IFactory<IEnumerable<Card>, HandType> _handTypeParseService;
 
-        public Day7SolverService(IParseService<string, IEnumerable<Play>> playParseService, IParseService<IEnumerable<Card>, HandType> handTypeParseService)
+        public Day7SolverService(IFactory<string, IEnumerable<Play>> playParseService, IFactory<IEnumerable<Card>, HandType> handTypeParseService)
         {
             _playParseService = playParseService;
             _handTypeParseService = handTypeParseService;
@@ -24,9 +24,9 @@ namespace Day7.Services
 
         public void ExecuteS1(string data)
         {
-            IEnumerable<Play> plays = _playParseService.Parse(data);
+            IEnumerable<Play> plays = _playParseService.Create(data);
 
-            plays = plays.OrderBy(x => _handTypeParseService.Parse(x.Hand).Value)
+            plays = plays.OrderBy(x => _handTypeParseService.Create(x.Hand).Value)
                 .ThenBy(x => x.Hand.ElementAt(0).Value)
                 .ThenBy(x => x.Hand.ElementAt(1).Value)
                 .ThenBy(x => x.Hand.ElementAt(2).Value)

@@ -3,9 +3,9 @@ using Services;
 
 namespace Day6.Services
 {
-    public class CorrectedRecordParseService : IParseService<string, Record>
+    public class CorrectedRecordParseService : IFactory<string, Record>
     {
-        public Record Parse(string input)
+        public Record Create(string input)
         {
             string[] parts = input.Split("\r\n");
             string[] timesData = parts.First().Split(':');

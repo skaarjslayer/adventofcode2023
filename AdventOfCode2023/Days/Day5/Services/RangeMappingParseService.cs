@@ -3,16 +3,16 @@ using Services;
 
 namespace Day5.Services
 {
-    public class RangeMappingParseService : IParseService<string, IEnumerable<RangeMapping>>
+    public class RangeMappingParseService : IFactory<string, IEnumerable<RangeMapping>>
     {
-        private readonly IParseService<(long, long), Model.Range> _rangeParseService;
+        private readonly IFactory<(long, long), Model.Range> _rangeParseService;
 
-        public RangeMappingParseService(IParseService<(long, long), Model.Range> rangeParseService)
+        public RangeMappingParseService(IFactory<(long, long), Model.Range> rangeParseService)
         {
             _rangeParseService = rangeParseService;
         }
 
-        public IEnumerable<RangeMapping> Parse(string input)
+        public IEnumerable<RangeMapping> Create(string input)
         {
             List<RangeMapping> rangeMaps = new List<RangeMapping>();
 
@@ -28,7 +28,7 @@ namespace Day5.Services
                 long sourceEnd = sourceStart + length - 1;
                 long destinationEnd = destinationStart + length - 1;
 
-                rangeMaps.Add(new RangeMapping(_rangeParseService.Parse((sourceStart, sourceEnd)), _rangeParseService.Parse((destinationStart, destinationEnd))));
+                rangeMaps.Add(new RangeMapping(_rangeParseService.Create((sourceStart, sourceEnd)), _rangeParseService.Create((destinationStart, destinationEnd))));
             }
 
             return rangeMaps;

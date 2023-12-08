@@ -3,9 +3,9 @@ using Services;
 
 namespace Day2.Services
 {
-    public class SubsetParseService : IParseService<string, IEnumerable<Subset>>
+    public class SubsetParseService : IFactory<string, IEnumerable<Subset>>
     {
-        public IEnumerable<Subset> Parse(string input)
+        public IEnumerable<Subset> Create(string input)
         {
             List<Subset> subsets = new List<Subset>();
 

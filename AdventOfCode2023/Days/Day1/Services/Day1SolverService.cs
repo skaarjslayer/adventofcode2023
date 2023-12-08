@@ -9,10 +9,10 @@ namespace Day1.Services
 {
     public class Day1SolverService : ISolverService
     {
-        private IParseService<string, IEnumerable<Calibration>> calibrationParseService = null;
+        private IFactory<string, IEnumerable<Calibration>> calibrationParseService = null;
         private ICalibrationSumService calibrationSumService = null;
 
-        public Day1SolverService(IParseService<string, IEnumerable<Calibration>> calibrationParseService, ICalibrationSumService calibrationSumService)
+        public Day1SolverService(IFactory<string, IEnumerable<Calibration>> calibrationParseService, ICalibrationSumService calibrationSumService)
         {
             this.calibrationParseService = calibrationParseService;
             this.calibrationSumService = calibrationSumService;
@@ -28,7 +28,7 @@ namespace Day1.Services
 
         public void ExecuteS1(string data)
         {
-            IEnumerable<Calibration> calibrations = this.calibrationParseService.Parse(data);
+            IEnumerable<Calibration> calibrations = this.calibrationParseService.Create(data);
 
             foreach (Calibration calibration in calibrations)
             {
@@ -42,7 +42,7 @@ namespace Day1.Services
 
         public void ExecuteS2(string data)
         {
-            IEnumerable<Calibration> calibrations = this.calibrationParseService.Parse(data);
+            IEnumerable<Calibration> calibrations = this.calibrationParseService.Create(data);
             List<string> wordNumbers = new List<string>
             {
                 "one",

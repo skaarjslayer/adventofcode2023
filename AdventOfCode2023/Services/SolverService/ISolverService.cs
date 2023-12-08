@@ -1,6 +1,6 @@
 ﻿namespace Services
 {
-    public interface ISolverService : IService
+    public interface ISolverService
     {
         void Execute();
     }

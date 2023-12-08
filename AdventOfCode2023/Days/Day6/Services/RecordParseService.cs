@@ -4,9 +4,9 @@ using System.Diagnostics;
 
 namespace Day6.Services
 {
-    public class RecordParseService : IParseService<string, IEnumerable<Record>>
+    public class RecordParseService : IFactory<string, IEnumerable<Record>>
     {
-        public IEnumerable<Record> Parse(string input)
+        public IEnumerable<Record> Create(string input)
         {
             List<Record> records = new List<Record>();
 

@@ -121,6 +121,9 @@
   <data name="Cards" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Cards.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="CardsJokerVariant" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>CardsJokerVariant.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="D7" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>D7.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>

@@ -3,16 +3,16 @@ using Services;
 
 namespace Day7.Services
 {
-    public class PlayParseService : IParseService<string, IEnumerable<Play>>
+    public class PlayParseService : IFactory<string, IEnumerable<Play>>
     {
-        private readonly IParseService<string, IEnumerable<Card>> _cardParseService;
+        private readonly IFactory<string, IEnumerable<Card>> _cardParseService;
 
-        public PlayParseService(IParseService<string, IEnumerable<Card>> cardParseService)
+        public PlayParseService(IFactory<string, IEnumerable<Card>> cardParseService)
         {
             _cardParseService = cardParseService;
         }
 
-        public IEnumerable<Play> Parse(string input)
+        public IEnumerable<Play> Create(string input)
         {
             List<Play> plays = new List<Play>();
 
@@ -22,7 +22,7 @@ namespace Day7.Services
             {
                 string[] data = part.Split(' ');
 
-                plays.Add(new Play(_cardParseService.Parse(data.First()), int.Parse(data.Last())));
+                plays.Add(new Play(_cardParseService.Create(data.First()), int.Parse(data.Last())));
             }
 
             return plays;

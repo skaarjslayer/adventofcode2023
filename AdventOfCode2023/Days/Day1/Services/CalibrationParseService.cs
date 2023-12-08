@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Day1.Services
 {
-    public class CalibrationParseService : IParseService<string, IEnumerable<Calibration>>
+    public class CalibrationParseService : IFactory<string, IEnumerable<Calibration>>
     {
-        public IEnumerable<Calibration> Parse(string input)
+        public IEnumerable<Calibration> Create(string input)
         {
             List<Calibration> calibrations = new List<Calibration>();
 

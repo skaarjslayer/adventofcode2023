@@ -5,11 +5,11 @@ namespace Day4.Services
 {
     public class Day4SolverService : ISolverService
     {
-        private readonly IParseService<string, IEnumerable<Scratchcard>> _scratchcardParseService;
-        private readonly IParseService<IEnumerable<Scratchcard>, IEnumerable<int>> _winningsParseService;
+        private readonly IFactory<string, IEnumerable<Scratchcard>> _scratchcardParseService;
+        private readonly IFactory<IEnumerable<Scratchcard>, IEnumerable<int>> _winningsParseService;
 
-        public Day4SolverService(IParseService<string, IEnumerable<Scratchcard>> scratchcardParseService,
-            IParseService<IEnumerable<Scratchcard>, IEnumerable<int>> winningsParseService)
+        public Day4SolverService(IFactory<string, IEnumerable<Scratchcard>> scratchcardParseService,
+            IFactory<IEnumerable<Scratchcard>, IEnumerable<int>> winningsParseService)
         {
             _scratchcardParseService = scratchcardParseService;
             _winningsParseService = winningsParseService;
@@ -25,7 +25,7 @@ namespace Day4.Services
 
         public void ExecuteS1(string data)
         {
-            IEnumerable<Scratchcard> scratchcards = _scratchcardParseService.Parse(data);
+            IEnumerable<Scratchcard> scratchcards = _scratchcardParseService.Create(data);
 
             Console.WriteLine($"The sum of all scratchcard scores is {scratchcards.Sum(x => x.GetScore())}.");
 
@@ -34,8 +34,8 @@ namespace Day4.Services
 
         public void ExecuteS2(string data)
         {
-            IEnumerable<Scratchcard> scratchcards = _scratchcardParseService.Parse(data);
-            IEnumerable<int> winnings = _winningsParseService.Parse(scratchcards);
+            IEnumerable<Scratchcard> scratchcards = _scratchcardParseService.Create(data);
+            IEnumerable<int> winnings = _winningsParseService.Create(scratchcards);
 
             Console.WriteLine($"The sum of all scratchcards is {winnings.Sum(x => x)}.");
 

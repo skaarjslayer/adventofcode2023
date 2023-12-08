@@ -82,6 +82,27 @@ namespace Day7.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 2 2
+        ///3 3
+        ///4 4
+        ///5 5
+        ///6 6
+        ///7 7
+        ///8 8
+        ///9 9
+        ///T 10
+        ///J 1
+        ///Q 12
+        ///K 13
+        ///A 14.
+        /// </summary>
+        internal static string CardsJokerVariant {
+            get {
+                return ResourceManager.GetString("CardsJokerVariant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A833A 309
         ///Q33J3 205
         ///55KK5 590

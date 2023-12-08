@@ -3,16 +3,16 @@ using Services;
 
 namespace Day5.Services
 {
-    public class AlmanacParseService : IParseService<string, (IEnumerable<long>, Almanac)>
+    public class AlmanacParseService : IFactory<string, (IEnumerable<long>, Almanac)>
     {
-        private readonly IParseService<string, IEnumerable<RangeMapping>> _rangeMapParseService;
+        private readonly IFactory<string, IEnumerable<RangeMapping>> _rangeMapParseService;
 
-        public AlmanacParseService(IParseService<string, IEnumerable<RangeMapping>> rangeMapParseService)
+        public AlmanacParseService(IFactory<string, IEnumerable<RangeMapping>> rangeMapParseService)
         {
             _rangeMapParseService = rangeMapParseService;
         }
 
-        public (IEnumerable<long>, Almanac) Parse(string input)
+        public (IEnumerable<long>, Almanac) Create(string input)
         {
             string[] rows = input.Split("\r\n\r\n");
 
@@ -26,13 +26,13 @@ namespace Day5.Services
                 seeds.Add(long.Parse(seed));
             }
 
-            IEnumerable<RangeMapping> seedToSoilMaps = _rangeMapParseService.Parse(rows[1]);
-            IEnumerable<RangeMapping> soilToFertilizerMaps = _rangeMapParseService.Parse(rows[2]);
-            IEnumerable<RangeMapping> fertilizerToWaterMaps = _rangeMapParseService.Parse(rows[3]);
-            IEnumerable<RangeMapping> waterToLightMaps = _rangeMapParseService.Parse(rows[4]);
-            IEnumerable<RangeMapping> lightToTemperatureMaps = _rangeMapParseService.Parse(rows[5]);
-            IEnumerable<RangeMapping> temperatureToHumidityMaps = _rangeMapParseService.Parse(rows[6]);
-            IEnumerable<RangeMapping> humidityToLocationMaps = _rangeMapParseService.Parse(rows[7]);
+            IEnumerable<RangeMapping> seedToSoilMaps = _rangeMapParseService.Create(rows[1]);
+            IEnumerable<RangeMapping> soilToFertilizerMaps = _rangeMapParseService.Create(rows[2]);
+            IEnumerable<RangeMapping> fertilizerToWaterMaps = _rangeMapParseService.Create(rows[3]);
+            IEnumerable<RangeMapping> waterToLightMaps = _rangeMapParseService.Create(rows[4]);
+            IEnumerable<RangeMapping> lightToTemperatureMaps = _rangeMapParseService.Create(rows[5]);
+            IEnumerable<RangeMapping> temperatureToHumidityMaps = _rangeMapParseService.Create(rows[6]);
+            IEnumerable<RangeMapping> humidityToLocationMaps = _rangeMapParseService.Create(rows[7]);
 
             return (seeds, new Almanac(seedToSoilMaps, soilToFertilizerMaps, fertilizerToWaterMaps, waterToLightMaps, lightToTemperatureMaps, temperatureToHumidityMaps, humidityToLocationMaps));
         }

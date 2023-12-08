@@ -5,10 +5,10 @@ namespace Day5.Services
 {
     public class Day5SolverService : ISolverService
     {
-        private readonly IParseService<string, (IEnumerable<long> seeds, Almanac almanac)> _almanacParseService;
-        private readonly IParseService<string, (IEnumerable<Model.Range> seeds, Almanac almanac)> _rangedAlmanacParseService;
+        private readonly IFactory<string, (IEnumerable<long> seeds, Almanac almanac)> _almanacParseService;
+        private readonly IFactory<string, (IEnumerable<Model.Range> seeds, Almanac almanac)> _rangedAlmanacParseService;
 
-        public Day5SolverService(IParseService<string, (IEnumerable<long> seeds, Almanac almanac)> almanacParseService, IParseService<string, (IEnumerable<Model.Range> seeds, Almanac almanac)> rangedAlmanacParseService)
+        public Day5SolverService(IFactory<string, (IEnumerable<long> seeds, Almanac almanac)> almanacParseService, IFactory<string, (IEnumerable<Model.Range> seeds, Almanac almanac)> rangedAlmanacParseService)
         {
             _almanacParseService = almanacParseService;
             _rangedAlmanacParseService = rangedAlmanacParseService;
@@ -24,7 +24,7 @@ namespace Day5.Services
 
         public void ExecuteS1(string data)
         {
-            (IEnumerable<long>, Almanac) formattedData = _almanacParseService.Parse(data);
+            (IEnumerable<long>, Almanac) formattedData = _almanacParseService.Create(data);
             IEnumerable<long> seeds = formattedData.Item1;
             Almanac almanac = formattedData.Item2;
 
@@ -48,7 +48,7 @@ namespace Day5.Services
 
         public void ExecuteS2(string data)
         {
-            (IEnumerable<Model.Range>, Almanac) formattedData = _rangedAlmanacParseService.Parse(data);
+            (IEnumerable<Model.Range>, Almanac) formattedData = _rangedAlmanacParseService.Create(data);
             IEnumerable<Model.Range> seeds = formattedData.Item1;
             Almanac almanac = formattedData.Item2;
 

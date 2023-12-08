@@ -5,9 +5,9 @@ namespace Day2.Services
 {
     public class Day2SolverService : ISolverService
     {
-        private readonly IParseService<string, IEnumerable<Game>> _gameParseService;
+        private readonly IFactory<string, IEnumerable<Game>> _gameParseService;
 
-        public Day2SolverService(IParseService<string, IEnumerable<Game>> gameParseService)
+        public Day2SolverService(IFactory<string, IEnumerable<Game>> gameParseService)
         {
             _gameParseService = gameParseService;
         }
@@ -23,7 +23,7 @@ namespace Day2.Services
         public void ExecuteS1(string data)
         {
             Subset legalSubset = new Subset(12, 13, 14);
-            IEnumerable<Game> games = _gameParseService.Parse(data);
+            IEnumerable<Game> games = _gameParseService.Create(data);
 
             foreach (Game game in games)
             {
@@ -37,7 +37,7 @@ namespace Day2.Services
 
         public void ExecuteS2(string data)
         {
-            IEnumerable<Game> games = _gameParseService.Parse(data);
+            IEnumerable<Game> games = _gameParseService.Create(data);
 
             foreach (Game game in games)
             {
