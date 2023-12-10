@@ -3,30 +3,20 @@ using Services;
 
 namespace Day7.Factory
 {
-    public class PlayFactoryCreateArgs
+    public class PlayFactory : AbstractFactory<string, Play>
     {
-        public string Text { get; init; }
-    }
+        private readonly AbstractFactory<char, Card> _cardFactory;
 
-    public class PlayFactory : AbstractFactory<PlayFactoryCreateArgs, Play>
-    {
-        private readonly AbstractFactory<CardFactoryCreateArgs, Card> _cardFactory;
-
-        public PlayFactory(AbstractFactory<CardFactoryCreateArgs, Card> cardFactory)
+        public PlayFactory(AbstractFactory<char, Card> cardFactory)
         {
             _cardFactory = cardFactory;
         }
 
-        public override Play Create(PlayFactoryCreateArgs input)
+        public override Play Create(string input)
         {
-            string[] data = input.Text.Split(' ');
+            string[] data = input.Split(' ');
 
-            IEnumerable<CardFactoryCreateArgs> args = data.First().Select(@char => new CardFactoryCreateArgs()
-            {
-                Character = @char
-            });
-
-            return new Play(_cardFactory.CreateMany(args), int.Parse(data.Last()));
+            return new Play(_cardFactory.CreateMany(data.First()), int.Parse(data.Last()));
         }
     }
 }

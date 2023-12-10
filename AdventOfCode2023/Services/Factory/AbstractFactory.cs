@@ -31,10 +31,14 @@ namespace Services
         /// <remarks>Use this method when you want to create multiple objects that are different from one another.</remarks>
         public IEnumerable<TOutput> CreateMany(IEnumerable<TInput> inputs)
         {
-            foreach (TInput input in inputs)
+            List<TOutput> output = new List<TOutput>();
+
+            foreach (var input in inputs)
             {
-                yield return Create(input);
+                output.Add(Create(input));
             }
+
+            return output;
         }
 
         /// <summary>
@@ -46,10 +50,14 @@ namespace Services
         /// <remarks>Use this method when you want to create multiple objects that are the same.</remarks>
         public IEnumerable<TOutput> CreateMany(TInput input, int count)
         {
+            List<TOutput> output = new List<TOutput>();
+
             for (int i = 0; i < count; i++)
             {
-                yield return Create(input);
+                output.Add(Create(input));
             }
+
+            return output;
         }
 
         #endregion Public Methods

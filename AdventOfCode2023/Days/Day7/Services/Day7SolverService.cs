@@ -1,5 +1,4 @@
-﻿using Day7.Factory;
-using Day7.Model;
+﻿using Day7.Model;
 using Services;
 
 namespace Day7.Services
@@ -14,14 +13,17 @@ namespace Day7.Services
         private const string OnePairKey = "1P";
         private const string HighCardKey = "HC";
 
-        private readonly AbstractFactory<PlayFactoryCreateArgs, Play> _playFactory;
+        private readonly AbstractFactory<char, Card> _cardFactory;
+        private readonly AbstractFactory<string, Play> _playFactory;
         private readonly AbstractFactory<string, IDictionary<char, int>> _cardValueMapFactory;
         private readonly AbstractFactory<string, IDictionary<string, int>> _handValueMapFactory;
 
-        public Day7SolverService(AbstractFactory<PlayFactoryCreateArgs, Play> playFactory,
+        public Day7SolverService(AbstractFactory<char, Card> cardFactory,
+            AbstractFactory<string, Play> playFactory,
             AbstractFactory<string, IDictionary<char, int>> cardValueMapFactory,
             AbstractFactory<string, IDictionary<string, int>> handValueMapFactory)
         {
+            _cardFactory = cardFactory;
             _playFactory = playFactory;
             _cardValueMapFactory = cardValueMapFactory;
             _handValueMapFactory = handValueMapFactory;
@@ -39,7 +41,7 @@ namespace Day7.Services
         {
             IDictionary<char, int> cardValueMap = _cardValueMapFactory.Create(Day7.Resources.Resource.Cards);
             IDictionary<string, int> handValueMap = _handValueMapFactory.Create(Day7.Resources.Resource.HandTypes);
-            IEnumerable<Play> plays = _playFactory.CreateMany(data.Split("\r\n").Select(x => new PlayFactoryCreateArgs() { Text = x }));
+            IEnumerable<Play> plays = _playFactory.CreateMany(data.Split("\r\n"));
 
             plays = plays.OrderBy(x => GetHandValue(x.Hand, handValueMap))
                 .ThenBy(x => GetCardValue(x.Hand.ElementAt(0), cardValueMap))
@@ -63,7 +65,7 @@ namespace Day7.Services
         {
             IDictionary<char, int> cardValueMap = _cardValueMapFactory.Create(Day7.Resources.Resource.CardsJokerVariant);
             IDictionary<string, int> handValueMap = _handValueMapFactory.Create(Day7.Resources.Resource.HandTypes);
-            IEnumerable<Play> plays = _playFactory.CreateMany(data.Split("\r\n").Select(x => new PlayFactoryCreateArgs() { Text = x }));
+            IEnumerable<Play> plays = _playFactory.CreateMany(data.Split("\r\n"));
 
             plays = plays.OrderBy(x => GetHandValue(ConvertJokers(x.Hand), handValueMap))
                 .ThenBy(x => GetCardValue(x.Hand.ElementAt(0), cardValueMap))
@@ -90,14 +92,13 @@ namespace Day7.Services
 
         private int GetHandValue(IEnumerable<Card> cards, IDictionary<string, int> handValueMap)
         {
-            IEnumerable<char> characters = cards.Select(x => x.Character);
-            HashSet<char> uniqueCharacters = new HashSet<char>(characters);
+            HashSet<Card> uniqueCards = new HashSet<Card>(cards);
 
-            switch (uniqueCharacters.Count)
+            switch (uniqueCards.Count)
             {
                 case 1: return handValueMap[FiveOfAKindKey];
-                case 2: return uniqueCharacters.Any(x => characters.Count(y => x == y) == 4) ? handValueMap[FourOfAKindKey] : handValueMap[FullHouseKey];
-                case 3: return uniqueCharacters.Any(x => characters.Count(y => x == y) == 3) ? handValueMap[ThreeOfAKindKey] : handValueMap[TwoPairKey];
+                case 2: return uniqueCards.Any(x => cards.Count(y => x == y) == 4) ? handValueMap[FourOfAKindKey] : handValueMap[FullHouseKey];
+                case 3: return uniqueCards.Any(x => cards.Count(y => x == y) == 3) ? handValueMap[ThreeOfAKindKey] : handValueMap[TwoPairKey];
                 case 4: return handValueMap[OnePairKey];
                 default: return handValueMap[HighCardKey];
             }
@@ -106,20 +107,23 @@ namespace Day7.Services
         private IEnumerable<Card> ConvertJokers(IEnumerable<Card> cards)
         {
             IEnumerable<Card> nonJokers = cards.Where(x => x.Character != 'J');
+            char highestOccurringCharacter = nonJokers.Count() > 0 ? nonJokers.GroupBy(c => c.Character).OrderByDescending(g => g.Count()).First().Key : default;
+
+            List<Card> newCards = new List<Card>();
 
             foreach (Card card in cards)
             {
                 if (card.Character == 'J' && nonJokers.Count() > 0)
                 {
-                    char highestOccurringCharacter = nonJokers.GroupBy(c => c.Character).OrderByDescending(g => g.Count()).First().Key;
-
-                    yield return new Card(highestOccurringCharacter);
+                    newCards.Add(_cardFactory.Create(highestOccurringCharacter));
                 }
                 else
                 {
-                    yield return card;
+                    newCards.Add(card);
                 }
             }
+
+            return newCards;
         }
     }
 }

@@ -3,16 +3,18 @@ using Services;
 
 namespace Day7.Factory
 {
-    public class CardFactoryCreateArgs
+    public class CardFactory : AbstractFactory<char, Card>
     {
-        public char Character { get; init; }
-    }
+        private readonly Dictionary<char, Card> _cardMap = new Dictionary<char, Card>();
 
-    public class CardFactory : AbstractFactory<CardFactoryCreateArgs, Card>
-    {
-        public override Card Create(CardFactoryCreateArgs input)
+        public override Card Create(char input)
         {
-            return new Card(input.Character);
+            if(!_cardMap.ContainsKey(input))
+            {
+                _cardMap.Add(input, new Card(input));
+            }
+
+            return _cardMap[input];
         }
     }
 }
