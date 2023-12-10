@@ -61,6 +61,26 @@ namespace Day7.Services
 
         public void ExecuteS2(string data)
         {
+            IDictionary<char, int> cardValueMap = _cardValueMapFactory.Create(Day7.Resources.Resource.CardsJokerVariant);
+            IDictionary<string, int> handValueMap = _handValueMapFactory.Create(Day7.Resources.Resource.HandTypes);
+            IEnumerable<Play> plays = _playFactory.CreateMany(data.Split("\r\n").Select(x => new PlayFactoryCreateArgs() { Text = x }));
+
+            plays = plays.OrderBy(x => GetHandValue(ConvertJokers(x.Hand), handValueMap))
+                .ThenBy(x => GetCardValue(x.Hand.ElementAt(0), cardValueMap))
+                .ThenBy(x => GetCardValue(x.Hand.ElementAt(1), cardValueMap))
+                .ThenBy(x => GetCardValue(x.Hand.ElementAt(2), cardValueMap))
+                .ThenBy(x => GetCardValue(x.Hand.ElementAt(3), cardValueMap))
+                .ThenBy(x => GetCardValue(x.Hand.ElementAt(4), cardValueMap));
+
+            int sum = 0;
+            for (int i = 0; i < plays.Count(); i++)
+            {
+                sum += plays.ElementAt(i).Bid * (i + 1);
+            }
+
+            Console.WriteLine($"The sum of all multiplied bids is {sum}");
+
+            Console.ReadKey();
         }
 
         private int GetCardValue(Card card, IDictionary<char, int> cardValueMap)
@@ -70,16 +90,35 @@ namespace Day7.Services
 
         private int GetHandValue(IEnumerable<Card> cards, IDictionary<string, int> handValueMap)
         {
-            IEnumerable<char> handSymbols = cards.Select(x => x.Character);
-            HashSet<char> uniqueCharacters = new HashSet<char>(handSymbols);
+            IEnumerable<char> characters = cards.Select(x => x.Character);
+            HashSet<char> uniqueCharacters = new HashSet<char>(characters);
 
             switch (uniqueCharacters.Count)
             {
                 case 1: return handValueMap[FiveOfAKindKey];
-                case 2: return uniqueCharacters.Any(x => handSymbols.Count(y => x == y) == 4) ? handValueMap[FourOfAKindKey] : handValueMap[FullHouseKey];
-                case 3: return uniqueCharacters.Any(x => handSymbols.Count(y => x == y) == 3) ? handValueMap[ThreeOfAKindKey] : handValueMap[TwoPairKey];
+                case 2: return uniqueCharacters.Any(x => characters.Count(y => x == y) == 4) ? handValueMap[FourOfAKindKey] : handValueMap[FullHouseKey];
+                case 3: return uniqueCharacters.Any(x => characters.Count(y => x == y) == 3) ? handValueMap[ThreeOfAKindKey] : handValueMap[TwoPairKey];
                 case 4: return handValueMap[OnePairKey];
                 default: return handValueMap[HighCardKey];
+            }
+        }
+
+        private IEnumerable<Card> ConvertJokers(IEnumerable<Card> cards)
+        {
+            IEnumerable<Card> nonJokers = cards.Where(x => x.Character != 'J');
+
+            foreach (Card card in cards)
+            {
+                if (card.Character == 'J' && nonJokers.Count() > 0)
+                {
+                    char highestOccurringCharacter = nonJokers.GroupBy(c => c.Character).OrderByDescending(g => g.Count()).First().Key;
+
+                    yield return new Card(highestOccurringCharacter);
+                }
+                else
+                {
+                    yield return card;
+                }
             }
         }
     }
