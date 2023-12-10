@@ -3,16 +3,16 @@ using Services;
 
 namespace Day2.Services
 {
-    public class GameParseService : IFactory<string, IEnumerable<Game>>
+    public class GameParseService : AbstractFactory<string, IEnumerable<Game>>
     {
-        private readonly IFactory<string, IEnumerable<Subset>> _subsetParseService;
+        private readonly AbstractFactory<string, IEnumerable<Subset>> _subsetParseService;
 
-        public GameParseService(IFactory<string, IEnumerable<Subset>> subsetParseService)
+        public GameParseService(AbstractFactory<string, IEnumerable<Subset>> subsetParseService)
         {
             _subsetParseService = subsetParseService;
         }
 
-        public IEnumerable<Game> Create(string input)
+        public override IEnumerable<Game> Create(string input)
         {
             List<Game> games = new List<Game>();
 

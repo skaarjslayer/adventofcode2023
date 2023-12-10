@@ -4,9 +4,9 @@ using Services.Grid;
 
 namespace Day3.Services
 {
-    public class GridParseService : IFactory<string, Grid<SchematicsCell>>
+    public class GridParseService : AbstractFactory<string, Grid<SchematicsCell>>
     {
-        public Grid<SchematicsCell> Create(string input)
+        public override Grid<SchematicsCell> Create(string input)
         {
             List<List<SchematicsCell>> cells = new List<List<SchematicsCell>>();
 

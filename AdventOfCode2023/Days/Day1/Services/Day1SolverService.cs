@@ -9,10 +9,10 @@ namespace Day1.Services
 {
     public class Day1SolverService : ISolverService
     {
-        private IFactory<string, IEnumerable<Calibration>> calibrationParseService = null;
+        private AbstractFactory<string, IEnumerable<Calibration>> calibrationParseService = null;
         private ICalibrationSumService calibrationSumService = null;
 
-        public Day1SolverService(IFactory<string, IEnumerable<Calibration>> calibrationParseService, ICalibrationSumService calibrationSumService)
+        public Day1SolverService(AbstractFactory<string, IEnumerable<Calibration>> calibrationParseService, ICalibrationSumService calibrationSumService)
         {
             this.calibrationParseService = calibrationParseService;
             this.calibrationSumService = calibrationSumService;

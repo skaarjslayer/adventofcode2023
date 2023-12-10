@@ -5,9 +5,9 @@ namespace Day2.Services
 {
     public class Day2SolverService : ISolverService
     {
-        private readonly IFactory<string, IEnumerable<Game>> _gameParseService;
+        private readonly AbstractFactory<string, IEnumerable<Game>> _gameParseService;
 
-        public Day2SolverService(IFactory<string, IEnumerable<Game>> gameParseService)
+        public Day2SolverService(AbstractFactory<string, IEnumerable<Game>> gameParseService)
         {
             _gameParseService = gameParseService;
         }

@@ -5,10 +5,10 @@ namespace Day6.Services
 {
     public class Day6SolverService : ISolverService
     {
-        private readonly IFactory<string, IEnumerable<Record>> _recordParseService;
-        private readonly IFactory<string, Record> _correctedRecordParseService;
+        private readonly AbstractFactory<string, IEnumerable<Record>> _recordParseService;
+        private readonly AbstractFactory<string, Record> _correctedRecordParseService;
 
-        public Day6SolverService(IFactory<string, IEnumerable<Record>> recordParseService, IFactory<string, Record> correctedRecordParseService)
+        public Day6SolverService(AbstractFactory<string, IEnumerable<Record>> recordParseService, AbstractFactory<string, Record> correctedRecordParseService)
         {
             _recordParseService = recordParseService;
             _correctedRecordParseService = correctedRecordParseService;

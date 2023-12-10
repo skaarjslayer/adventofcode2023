@@ -3,9 +3,9 @@ using Services;
 
 namespace Day4.Services
 {
-    public class ScratchcardParseService : IFactory<string, IEnumerable<Scratchcard>>
+    public class ScratchcardParseService : AbstractFactory<string, IEnumerable<Scratchcard>>
     {
-        public IEnumerable<Scratchcard> Create(string input)
+        public override IEnumerable<Scratchcard> Create(string input)
         {
             List<Scratchcard> scratchcards = new List<Scratchcard>();
 

@@ -3,16 +3,16 @@ using Services;
 
 namespace Day5.Services
 {
-    public class RangeMappingParseService : IFactory<string, IEnumerable<RangeMapping>>
+    public class RangeMappingParseService : AbstractFactory<string, IEnumerable<RangeMapping>>
     {
-        private readonly IFactory<(long, long), Model.Range> _rangeParseService;
+        private readonly AbstractFactory<(long, long), Model.Range> _rangeParseService;
 
-        public RangeMappingParseService(IFactory<(long, long), Model.Range> rangeParseService)
+        public RangeMappingParseService(AbstractFactory<(long, long), Model.Range> rangeParseService)
         {
             _rangeParseService = rangeParseService;
         }
 
-        public IEnumerable<RangeMapping> Create(string input)
+        public override IEnumerable<RangeMapping> Create(string input)
         {
             List<RangeMapping> rangeMaps = new List<RangeMapping>();
 

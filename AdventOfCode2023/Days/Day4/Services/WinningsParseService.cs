@@ -3,9 +3,9 @@ using Services;
 
 namespace Day4.Services
 {
-    public class WinningsParseService : IFactory<IEnumerable<Scratchcard>, IEnumerable<int>>
+    public class WinningsParseService : AbstractFactory<IEnumerable<Scratchcard>, IEnumerable<int>>
     {
-        public IEnumerable<int> Create(IEnumerable<Scratchcard> input)
+        public override IEnumerable<int> Create(IEnumerable<Scratchcard> input)
         {
             List<int> winnings = Enumerable.Repeat(1, input.Count()).ToList();
 

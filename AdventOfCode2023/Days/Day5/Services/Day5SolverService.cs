@@ -5,10 +5,10 @@ namespace Day5.Services
 {
     public class Day5SolverService : ISolverService
     {
-        private readonly IFactory<string, (IEnumerable<long> seeds, Almanac almanac)> _almanacParseService;
-        private readonly IFactory<string, (IEnumerable<Model.Range> seeds, Almanac almanac)> _rangedAlmanacParseService;
+        private readonly AbstractFactory<string, (IEnumerable<long> seeds, Almanac almanac)> _almanacParseService;
+        private readonly AbstractFactory<string, (IEnumerable<Model.Range> seeds, Almanac almanac)> _rangedAlmanacParseService;
 
-        public Day5SolverService(IFactory<string, (IEnumerable<long> seeds, Almanac almanac)> almanacParseService, IFactory<string, (IEnumerable<Model.Range> seeds, Almanac almanac)> rangedAlmanacParseService)
+        public Day5SolverService(AbstractFactory<string, (IEnumerable<long> seeds, Almanac almanac)> almanacParseService, AbstractFactory<string, (IEnumerable<Model.Range> seeds, Almanac almanac)> rangedAlmanacParseService)
         {
             _almanacParseService = almanacParseService;
             _rangedAlmanacParseService = rangedAlmanacParseService;

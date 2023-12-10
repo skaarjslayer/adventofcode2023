@@ -6,13 +6,13 @@ namespace Day3.Services
 {
     public class Day3SolverService : ISolverService
     {
-        private readonly IFactory<string, Grid<SchematicsCell>> _gridParseService;
-        private readonly IFactory<Grid<SchematicsCell>, IEnumerable<Part>> _partParseService;
-        private readonly IFactory<(IEnumerable<Part>, Grid<SchematicsCell>), IEnumerable<Gear>> _gearParseService;
+        private readonly AbstractFactory<string, Grid<SchematicsCell>> _gridParseService;
+        private readonly AbstractFactory<Grid<SchematicsCell>, IEnumerable<Part>> _partParseService;
+        private readonly AbstractFactory<(IEnumerable<Part>, Grid<SchematicsCell>), IEnumerable<Gear>> _gearParseService;
 
-        public Day3SolverService(IFactory<string, Grid<SchematicsCell>> gridParseService,
-            IFactory<Grid<SchematicsCell>, IEnumerable<Part>> partParseService,
-            IFactory<(IEnumerable<Part>, Grid<SchematicsCell>), IEnumerable<Gear>> gearParseService)
+        public Day3SolverService(AbstractFactory<string, Grid<SchematicsCell>> gridParseService,
+            AbstractFactory<Grid<SchematicsCell>, IEnumerable<Part>> partParseService,
+            AbstractFactory<(IEnumerable<Part>, Grid<SchematicsCell>), IEnumerable<Gear>> gearParseService)
         {
             _gridParseService = gridParseService;
             _partParseService = partParseService;

@@ -3,16 +3,16 @@ using Services;
 
 namespace Day5.Services
 {
-    public class AlmanacParseService : IFactory<string, (IEnumerable<long>, Almanac)>
+    public class AlmanacParseService : AbstractFactory<string, (IEnumerable<long>, Almanac)>
     {
-        private readonly IFactory<string, IEnumerable<RangeMapping>> _rangeMapParseService;
+        private readonly AbstractFactory<string, IEnumerable<RangeMapping>> _rangeMapParseService;
 
-        public AlmanacParseService(IFactory<string, IEnumerable<RangeMapping>> rangeMapParseService)
+        public AlmanacParseService(AbstractFactory<string, IEnumerable<RangeMapping>> rangeMapParseService)
         {
             _rangeMapParseService = rangeMapParseService;
         }
 
-        public (IEnumerable<long>, Almanac) Create(string input)
+        public override (IEnumerable<long>, Almanac) Create(string input)
         {
             string[] rows = input.Split("\r\n\r\n");
 

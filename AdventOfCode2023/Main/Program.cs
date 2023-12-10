@@ -71,7 +71,7 @@ namespace AdventOfCode2023
                         serviceCollection.TryAddTransient(implementationType);
                     }
 
-                    foreach (Type interfaceType in implementationType.GetInterfaces())
+                    foreach (Type interfaceType in GetAllInterfaces(implementationType))
                     {
                         if (IsSingleton(implementationType))
                         {
@@ -93,6 +93,28 @@ namespace AdventOfCode2023
             const string SelectorName = "Selector";
 
             return type.Name.EndsWith(ServiceName) || type.Name.EndsWith(FactoryName) || type.Name.EndsWith(SelectorName);
+        }
+
+        private static IEnumerable<Type> GetAllInterfaces(Type type)
+        {
+            HashSet<Type> interfaceTypes = new HashSet<Type>(type.GetInterfaces());
+
+            Type currentType = type.BaseType;
+            while (currentType != null)
+            {
+                if (currentType.IsAbstract)
+                {
+                    interfaceTypes.Add(currentType);
+                }
+
+                interfaceTypes.UnionWith(currentType.GetInterfaces());
+                currentType = currentType.BaseType;
+            }
+
+            foreach (Type interfaceType in interfaceTypes)
+            {
+                yield return interfaceType;
+            }
         }
     }
 }

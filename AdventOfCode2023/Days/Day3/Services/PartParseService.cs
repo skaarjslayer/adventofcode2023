@@ -4,9 +4,9 @@ using Services.Grid;
 
 namespace Day3.Services
 {
-    public class PartParseService : IFactory<Grid<SchematicsCell>, IEnumerable<Part>>
+    public class PartParseService : AbstractFactory<Grid<SchematicsCell>, IEnumerable<Part>>
     {
-        public IEnumerable<Part> Create(Grid<SchematicsCell> input)
+        public override IEnumerable<Part> Create(Grid<SchematicsCell> input)
         {
             List<Part> parts = new List<Part>();
             List<SchematicsCell> partBuffer = new List<SchematicsCell>();

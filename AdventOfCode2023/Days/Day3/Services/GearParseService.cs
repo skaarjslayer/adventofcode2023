@@ -4,9 +4,9 @@ using Services.Grid;
 
 namespace Day3.Services
 {
-    public class GearParseService : IFactory<(IEnumerable<Part> parts, Grid<SchematicsCell> grid), IEnumerable<Gear>>
+    public class GearParseService : AbstractFactory<(IEnumerable<Part> parts, Grid<SchematicsCell> grid), IEnumerable<Gear>>
     {
-        public IEnumerable<Gear> Create((IEnumerable<Part> parts, Grid<SchematicsCell> grid) input)
+        public override IEnumerable<Gear> Create((IEnumerable<Part> parts, Grid<SchematicsCell> grid) input)
         {
             List<Gear> gears = new List<Gear>();
 

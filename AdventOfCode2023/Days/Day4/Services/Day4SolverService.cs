@@ -5,11 +5,11 @@ namespace Day4.Services
 {
     public class Day4SolverService : ISolverService
     {
-        private readonly IFactory<string, IEnumerable<Scratchcard>> _scratchcardParseService;
-        private readonly IFactory<IEnumerable<Scratchcard>, IEnumerable<int>> _winningsParseService;
+        private readonly AbstractFactory<string, IEnumerable<Scratchcard>> _scratchcardParseService;
+        private readonly AbstractFactory<IEnumerable<Scratchcard>, IEnumerable<int>> _winningsParseService;
 
-        public Day4SolverService(IFactory<string, IEnumerable<Scratchcard>> scratchcardParseService,
-            IFactory<IEnumerable<Scratchcard>, IEnumerable<int>> winningsParseService)
+        public Day4SolverService(AbstractFactory<string, IEnumerable<Scratchcard>> scratchcardParseService,
+            AbstractFactory<IEnumerable<Scratchcard>, IEnumerable<int>> winningsParseService)
         {
             _scratchcardParseService = scratchcardParseService;
             _winningsParseService = winningsParseService;

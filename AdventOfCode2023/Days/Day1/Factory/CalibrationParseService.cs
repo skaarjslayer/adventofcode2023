@@ -2,11 +2,11 @@
 using Services;
 using System.Collections.Generic;
 
-namespace Day1.Services
+namespace Day1.Factory
 {
-    public class CalibrationParseService : IFactory<string, IEnumerable<Calibration>>
+    public class CalibrationParseService : AbstractFactory<string, IEnumerable<Calibration>>
     {
-        public IEnumerable<Calibration> Create(string input)
+        public override IEnumerable<Calibration> Create(string input)
         {
             List<Calibration> calibrations = new List<Calibration>();
 
