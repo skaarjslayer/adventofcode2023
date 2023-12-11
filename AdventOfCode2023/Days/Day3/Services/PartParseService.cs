@@ -38,7 +38,7 @@ namespace Day3.Services
 
         private bool IsValidPart(IEnumerable<SchematicsCell> cells, Grid<SchematicsCell> grid)
         {
-            return cells.Any(x => grid.GetNeighbours(x).Any(y => y != null && !char.IsLetterOrDigit(y.CharacterValue) && y.CharacterValue != '.'));
+            return cells.Any(x => grid.GetNeighbours(x).Any(y => y.Value != null && !char.IsLetterOrDigit(y.Value.CharacterValue) && y.Value.CharacterValue != '.'));
         }
     }
 }

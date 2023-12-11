@@ -13,29 +13,29 @@ namespace Services.Grid
             Cells = cells;
         }
 
-        public IEnumerable<TCell> GetNeighbours(TCell cell)
+        public IDictionary<Direction, TCell> GetNeighbours(TCell cell)
         {
-            return new List<TCell>
+            return new Dictionary<Direction, TCell>
             {
-                GetNeighbourNorth(cell),
-                GetNeighbourNorthEast(cell),
-                GetNeighbourEast(cell),
-                GetNeighbourSouthEast(cell),
-                GetNeighbourSouth(cell),
-                GetNeighbourSouthWest(cell),
-                GetNeighbourWest(cell),
-                GetNeighbourNorthWest(cell),
+                { Direction.North, GetNeighbourNorth(cell) },
+                { Direction.NorthEast, GetNeighbourNorthEast(cell) },
+                { Direction.East, GetNeighbourEast(cell) },
+                { Direction.SouthEast, GetNeighbourSouthEast(cell) },
+                { Direction.South, GetNeighbourSouth(cell) },
+                { Direction.SouthWest, GetNeighbourSouthWest(cell) },
+                { Direction.West, GetNeighbourWest(cell) },
+                { Direction.NorthWest, GetNeighbourNorthWest(cell) },
             };
         }
 
-        public IEnumerable<TCell> GetNeighboursOrthogonal(TCell cell)
+        public IDictionary<Direction, TCell> GetNeighboursOrthogonal(TCell cell)
         {
-            return new List<TCell>
+            return new Dictionary<Direction, TCell>
             {
-                GetNeighbourNorth(cell),
-                GetNeighbourEast(cell),
-                GetNeighbourSouth(cell),
-                GetNeighbourWest(cell),
+                { Direction.North, GetNeighbourNorth(cell) },
+                { Direction.East, GetNeighbourEast(cell) },
+                { Direction.South, GetNeighbourSouth(cell) },
+                { Direction.West, GetNeighbourWest(cell) },
             };
         }
 

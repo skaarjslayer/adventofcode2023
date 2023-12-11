@@ -14,8 +14,8 @@ namespace Day3.Services
             {
                 if (IsGear(cell))
                 {
-                    IEnumerable<SchematicsCell> neighbours = input.grid.GetNeighbours(cell);
-                    HashSet<Part> relevantParts = new HashSet<Part>(input.parts.Where(x => x.Cells.Any(y => neighbours.Contains(y))));
+                    IDictionary<Direction, SchematicsCell> neighbours = input.grid.GetNeighbours(cell);
+                    HashSet<Part> relevantParts = new HashSet<Part>(input.parts.Where(x => x.Cells.Any(y => neighbours.Values.Contains(y))));
 
                     if (relevantParts.Count() == 2)
                     {
