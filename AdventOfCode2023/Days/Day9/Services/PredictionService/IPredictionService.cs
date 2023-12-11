@@ -4,6 +4,7 @@ namespace Day9.Services.PredictionService
 {
     public interface IPredictionService
     {
-        int GetPrediction(IEnumerable<int> sequence);
+        int GetFuturePrediction(IEnumerable<int> sequence);
+        int GetPastPrediction(IEnumerable<int> sequence);
     }
 }

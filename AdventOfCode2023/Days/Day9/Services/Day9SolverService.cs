@@ -27,13 +27,18 @@ namespace Day9.Services
         {
             IEnumerable<Sequence> sequences = _sequenceFactory.CreateMany(data.Split("\r\n"));
 
-            Console.WriteLine($"The sum of all predictions is {sequences.Sum(x => _predictionService.GetPrediction(x.Numbers))}");
+            Console.WriteLine($"The sum of all future predictions is {sequences.Sum(x => _predictionService.GetFuturePrediction(x.Numbers))}");
 
             Console.ReadKey();
         }
 
         public void ExecuteS2(string data)
         {
+            IEnumerable<Sequence> sequences = _sequenceFactory.CreateMany(data.Split("\r\n"));
+
+            Console.WriteLine($"The sum of all past predictions is {sequences.Sum(x => _predictionService.GetPastPrediction(x.Numbers))}");
+
+            Console.ReadKey();
         }
     }
 }

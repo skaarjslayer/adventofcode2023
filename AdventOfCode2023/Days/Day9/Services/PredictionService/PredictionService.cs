@@ -2,7 +2,7 @@
 {
     public class PredictionService : IPredictionService
     {
-        public int GetPrediction(IEnumerable<int> sequence)
+        public int GetFuturePrediction(IEnumerable<int> sequence)
         {
             IEnumerable<int> differences = GetDifferences(sequence);
 
@@ -12,7 +12,21 @@
             }
             else
             {
-                return sequence.Last() + GetPrediction(differences);
+                return sequence.Last() + GetFuturePrediction(differences);
+            }
+        }
+
+        public int GetPastPrediction(IEnumerable<int> sequence)
+        {
+            IEnumerable<int> differences = GetDifferences(sequence);
+
+            if (differences.All(x => x == 0))
+            {
+                return sequence.First() - differences.First();
+            }
+            else
+            {
+                return sequence.First() - GetPastPrediction(differences);
             }
         }
 
