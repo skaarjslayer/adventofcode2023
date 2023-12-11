@@ -21,6 +21,7 @@ namespace Day8.Services
             ExecuteS1(Day8.Resources.Resource.Test2);
             ExecuteS1(Day8.Resources.Resource.D8);
             ExecuteS2(Day8.Resources.Resource.Test);
+            ExecuteS2(Day8.Resources.Resource.Test2);
             ExecuteS2(Day8.Resources.Resource.D8);
         }
 
@@ -28,18 +29,20 @@ namespace Day8.Services
         {
             string[] parts = data.Split("\r\n\r\n");
             IEnumerable<Node> nodes = _nodeFactory.CreateMany(parts.Last().Split("\r\n"));
-            IEnumerable<Node> path = _pathfinderService.GetPath(nodes, parts.First());
+            long steps = _pathfinderService.GetSteps(nodes, nodes.Where(x => x.Id.StartsWith("AAA")).First(), parts.First(), (node) => node.Id.EndsWith("ZZZ"));
 
-            Console.WriteLine($"The number of steps to walk the path is {path.Count() - 1}");
+            Console.WriteLine($"The number of steps to walk the path is {steps}");
 
             Console.ReadKey();
         }
 
         public void ExecuteS2(string data)
         {
-            
+            string[] parts = data.Split("\r\n\r\n");
+            IEnumerable<Node> nodes = _nodeFactory.CreateMany(parts.Last().Split("\r\n"));
+            long steps = _pathfinderService.GetGhostSteps(nodes, parts.First());
 
-            Console.WriteLine($"The sum of all multiplied bids is ");
+            Console.WriteLine($"The number of steps to walk the ghost path is {steps}");
 
             Console.ReadKey();
         }

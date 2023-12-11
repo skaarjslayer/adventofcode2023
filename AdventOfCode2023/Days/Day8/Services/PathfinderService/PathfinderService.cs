@@ -4,41 +4,63 @@ namespace Day8.Services.PathfinderService
 {
     public class PathfinderService : IPathfinderService
     {
-        public IEnumerable<Node> GetPath(IEnumerable<Node> nodes, string instructions)
+        public long GetSteps(IEnumerable<Node> nodes, Node startNode, string instructions, Func<Node, bool> pathEndCheckCallback)
         {
-            const string StartNode = "AAA";
-            const string EndNode = "ZZZ";
-
-            Dictionary<string, Node> keyValuePairs = new Dictionary<string, Node>();
-            foreach(Node node in nodes)
-            {
-                keyValuePairs.Add(node.Id, node);
-            }
-
-            List<Node> path = new List<Node>();
-            Node currentNode = keyValuePairs[StartNode];
-            path.Add(currentNode);
+            IDictionary<string, Node> map = CreateMap(nodes);
+            Node currentNode = startNode;
 
             for(int i = 0; ; i++)
             {
-                int index = i % instructions.Length;
+                currentNode = instructions[i % instructions.Length] == 'L' ? map[currentNode.LeftId] : map[currentNode.RightId];
 
-                if (instructions[index] == 'L')
+                if (pathEndCheckCallback.Invoke(currentNode))
                 {
-                    currentNode = keyValuePairs[currentNode.LeftId];
-                }
-                else if (instructions[index] == 'R')
-                {
-                    currentNode = keyValuePairs[currentNode.RightId];
-                }
-
-                path.Add(currentNode);
-
-                if (currentNode.Id == EndNode)
-                {
-                    return path;
+                    return i + 1;
                 }
             }
+        }
+
+        public long GetGhostSteps(IEnumerable<Node> nodes, string instructions)
+        {
+            IEnumerable<Node> startNodes = nodes.Where(x => x.Id.EndsWith('A'));
+            IEnumerable<long> steps = startNodes.Select(x => GetSteps(nodes, x, instructions, (node) => node.Id.EndsWith('Z')));
+
+            long result = steps.First();
+
+            foreach (long num in steps)
+            {
+                result = GetLeastCommonMultiple(result, num);
+            }
+
+            return result;
+
+            long GetGreatestCommonDivisor(long a, long b)
+            {
+                while (b != 0)
+                {
+                    long temp = b;
+                    b = a % b;
+                    a = temp;
+                }
+                return a;
+            }
+
+            long GetLeastCommonMultiple(long a, long b)
+            {
+                return (a / GetGreatestCommonDivisor(a, b)) * b;
+            }
+        }
+
+        private IDictionary<string, Node> CreateMap(IEnumerable<Node> nodes)
+        {
+            Dictionary<string, Node> map = new Dictionary<string, Node>();
+
+            foreach (Node node in nodes)
+            {
+                map.Add(node.Id, node);
+            }
+
+            return map;
         }
     }
 }

@@ -4,6 +4,7 @@ namespace Day8.Services.PathfinderService
 {
     public interface IPathfinderService
     {
-        IEnumerable<Node> GetPath(IEnumerable<Node> nodes, string instructions);
+        long GetSteps(IEnumerable<Node> nodes, Node startNode, string instructions, Func<Node, bool> pathEndCheckCallback);
+        long GetGhostSteps(IEnumerable<Node> nodes, string instructions);
     }
 }
