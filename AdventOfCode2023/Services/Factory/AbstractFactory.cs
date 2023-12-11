@@ -33,7 +33,7 @@ namespace Services
         {
             List<TOutput> output = new List<TOutput>();
 
-            foreach (var input in inputs)
+            foreach (TInput input in inputs)
             {
                 output.Add(Create(input));
             }
