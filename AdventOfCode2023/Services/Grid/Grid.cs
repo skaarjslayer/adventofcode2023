@@ -13,6 +13,18 @@ namespace Services.Grid
             Cells = cells;
         }
 
+        public Direction GetOppositeDirection(Direction direction) => direction switch
+        {
+            Direction.North => Direction.South,
+            Direction.NorthEast => Direction.SouthWest,
+            Direction.East => Direction.West,
+            Direction.SouthEast => Direction.NorthWest,
+            Direction.South => Direction.North,
+            Direction.SouthWest => Direction.NorthEast,
+            Direction.West => Direction.East,
+            Direction.NorthWest => Direction.SouthEast,
+        };
+
         public IDictionary<Direction, TCell> GetNeighbours(TCell cell)
         {
             return new Dictionary<Direction, TCell>
@@ -37,6 +49,31 @@ namespace Services.Grid
                 { Direction.South, GetNeighbourSouth(cell) },
                 { Direction.West, GetNeighbourWest(cell) },
             };
+        }
+
+        public TCell GetNeighbour(TCell cell, Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.North:
+                    return GetNeighbourNorth(cell);
+                case Direction.NorthEast:
+                    return GetNeighbourNorthEast(cell);
+                case Direction.East:
+                    return GetNeighbourEast(cell);
+                case Direction.SouthEast:
+                    return GetNeighbourSouthEast(cell);
+                case Direction.South:
+                    return GetNeighbourSouth(cell);
+                case Direction.SouthWest:
+                    return GetNeighbourSouthWest(cell);
+                case Direction.West:
+                    return GetNeighbourWest(cell);
+                case Direction.NorthWest:
+                    return GetNeighbourNorthWest(cell);
+                default:
+                    return null;
+            }
         }
 
         public TCell GetNeighbourNorth(TCell cell)
@@ -79,7 +116,7 @@ namespace Services.Grid
         {
             int x = cell.X - 1;
 
-            if (x > 0)
+            if (x >= 0)
             {
                 return Cells.ElementAt(cell.Y).ElementAt(x);
             }
