@@ -61,53 +61,20 @@ namespace Day8.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A833A 309
-        ///Q33J3 205
-        ///55KK5 590
-        ///K4457 924
-        ///Q3QT3 11
-        ///QJK32 349
-        ///96659 162
-        ///955A9 851
-        ///33888 311
-        ///57JJ7 721
-        ///67A7A 978
-        ///T44T4 557
-        ///46446 802
-        ///72757 471
-        ///23J5J 148
-        ///44944 660
-        ///T89JJ 938
-        ///55J55 141
-        ///58858 555
-        ///2Q22J 542
-        ///4734Q 454
-        ///22522 249
-        ///Q2486 814
-        ///KK3KK 577
-        ///6J6KA 250
-        ///9A4JJ 168
-        ///72AQ7 308
-        ///TJ486 320
-        ///97397 121
-        ///48334 748
-        ///2J5J2 964
-        ///4836J 588
-        ///Q6565 943
-        ///JAJAJ 562
-        ///KK3KA 620
-        ///99229 395
-        ///T9T99 684
-        ///22838 638
-        ///7QQQ3 149
-        ///6K58A 783
-        ///Q3T45 675
-        ///7TQ78 214
-        ///A2AA5 549
-        ///98944 375
-        ///Q3QAA 999
-        ///A8JAT 456
-        ///TT9T9 1 [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to LLRLLRRLRLRRRLRRLLRRRLRLRLRRLRRRLRRLRLRLLRLLLRRRLRRLRRRLRRRLRRRLRLRRLLRRLRRLRRLRRRLRLRRRLLRLRRLRRRLRLRRRLRRRLRLRRRLLRRRLRRRLRLRRLRLRRRLLRRLRRLRRLRRLRLRLRRRLLRRRLRRLRRRLRLRLRRRLLRLRRLLRLRRLRLRRRLRLRRLLRRRLLRRLRLRLLRLLRRLRRLLRRLRLRRLRLRLRRRLRRLRLLLLRRLRLRLRRRLLLRRRLRRLRRLRLLRLRRRLLLRRRLRRRLRRRR
+        ///
+        ///NQT = (TXC, RVJ)
+        ///FPT = (PNS, KJL)
+        ///BNQ = (THG, LCV)
+        ///SPL = (VBH, NNV)
+        ///TLM = (LVQ, PGT)
+        ///GHC = (XKN, SPR)
+        ///PHT = (HMF, DST)
+        ///FSF = (JCM, SMT)
+        ///GDD = (FHJ, RBS)
+        ///GVR = (FVD, FVD)
+        ///SST = (PMF, MGC)
+        ///ZZZ = (VLV, SQV)        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string D8 {
             get {

@@ -82,7 +82,8 @@ namespace Day7.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 2 2
+        ///   Looks up a localized string similar to J 1
+        ///2 2
         ///3 3
         ///4 4
         ///5 5
@@ -91,10 +92,9 @@ namespace Day7.Resources {
         ///8 8
         ///9 9
         ///T 10
-        ///J 1
-        ///Q 12
-        ///K 13
-        ///A 14.
+        ///Q 11
+        ///K 12
+        ///A 13.
         /// </summary>
         internal static string CardsJokerVariant {
             get {
