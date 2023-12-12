@@ -70,7 +70,7 @@ namespace Day10.Services
                 }
 
                 previousCell = currentCell;
-                currentCell = isValidPipe ? nextCell : null;
+                currentCell = isValidPipe && nextCell != startingCell ? nextCell : null;
             }
 
             return path;
