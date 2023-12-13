@@ -12,10 +12,9 @@ namespace Day11.Factory
 
     public class SpaceCellFactory : AbstractFactory<SpaceCellCreateArgs, SpaceCell>
     {
-        public override SpaceCell Create(SpaceCellCreateArgs input) => input.Character switch
+        public override SpaceCell Create(SpaceCellCreateArgs input)
         {
-            '#' => new GalaxyCell(input.X, input.Y),
-            _ => new SpaceCell(input.X, input.Y)
-        };
+            return new SpaceCell(input.X, input.Y, input.Character);
+        }
     }
 }

@@ -4,8 +4,11 @@ namespace Day11.Model
 {
     public class SpaceCell : Cell
     {
-        public SpaceCell(int x, int y) : base(x, y)
+        public char Character { get; init; }
+
+        public SpaceCell(int x, int y, char @char) : base(x, y)
         {
+            Character = @char;
         }
     }
 }
