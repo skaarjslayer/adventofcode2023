@@ -19,7 +19,10 @@ namespace Day10.Services
             ExecuteS1(Day10.Resources.Resource.Test2);
             ExecuteS1(Day10.Resources.Resource.Test3);
             ExecuteS1(Day10.Resources.Resource.D10);
-            ExecuteS2(Day10.Resources.Resource.Test);
+            ExecuteS2(Day10.Resources.Resource.Test4);
+            ExecuteS2(Day10.Resources.Resource.Test5);
+            ExecuteS2(Day10.Resources.Resource.Test6);
+            ExecuteS2(Day10.Resources.Resource.Test7);
             ExecuteS2(Day10.Resources.Resource.D10);
         }
 
@@ -36,6 +39,28 @@ namespace Day10.Services
 
         public void ExecuteS2(string data)
         {
+            PipeGrid grid = _pipeGridFactory.Create(data.Split("\r\n"));
+            IEnumerable<IEnumerable<PipeCell>> paths = GetPipePaths(grid, grid.StartingCell);
+            IEnumerable<PipeCell> loop = paths.Where(x => x.Count() > 1 && x.First() == x.Last()).First();
+
+            bool isInside = false;
+            int enclosedNodesTotal = 0;
+            foreach (PipeCell cell in grid)
+            {
+                bool loopCell = loop.Contains(cell);
+                if (loopCell && cell.Directions.Contains(Direction.South))
+                {
+                    isInside = !isInside;
+                }
+                else if (!loopCell)
+                {
+                    enclosedNodesTotal += isInside ? 1 : 0;
+                }
+            }
+
+            Console.WriteLine($"The number of enclosed nodes is {enclosedNodesTotal}");
+
+            Console.ReadKey();
         }
 
         public IEnumerable<IEnumerable<PipeCell>> GetPipePaths(PipeGrid grid, PipeCell startingCell)

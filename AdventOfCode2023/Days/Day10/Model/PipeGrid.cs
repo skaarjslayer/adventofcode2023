@@ -10,10 +10,5 @@ namespace Day10.Model
         {
             StartingCell = startingCell;
         }
-
-        public IEnumerable<PipeCell> GetConnectedPipes(PipeCell cell)
-        {
-            return GetNeighboursOrthogonal(cell).Where(x => PipeCell.IsValidConnection(x.Key, x.Value)).Select(x => x.Value);
-        }
     }
 }

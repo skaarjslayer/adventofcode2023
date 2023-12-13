@@ -10,22 +10,5 @@ namespace Day10.Model
         {
             Directions = directions;
         }
-
-        public static bool IsValidConnection(Direction direction, PipeCell cell)
-        {
-            switch (direction)
-            {
-                case Direction.North:
-                    return cell.Directions.Any(x => x == Direction.South);
-                case Direction.South:
-                    return cell.Directions.Any(x => x == Direction.North);
-                case Direction.West:
-                    return cell.Directions.Any(x => x == Direction.East);
-                case Direction.East:
-                    return cell.Directions.Any(x => x == Direction.West);
-                default:
-                    return false;
-            }
-        }
     }
 }
