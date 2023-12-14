@@ -3,8 +3,14 @@ using System.Collections.Generic;
 
 namespace Day1.Factory
 {
+    /// <summary>
+    /// A factory for creating calibration strings.
+    /// </summary>
     public class CalibrationFactory : AbstractFactory<string, IEnumerable<string>>
     {
+        #region AbstractFactory Implementation
+
+        /// <inheritdoc/>
         public override IEnumerable<string> Create(string input)
         {
             List<string> calibrations = new List<string>();
@@ -18,5 +24,7 @@ namespace Day1.Factory
 
             return calibrations;
         }
+
+        #endregion AbstractFactory Implementation
     }
 }
