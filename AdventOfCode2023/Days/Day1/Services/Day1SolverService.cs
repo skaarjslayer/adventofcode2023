@@ -1,6 +1,4 @@
-﻿using Day1.Model;
-using Day1.Services.CalibrationSumService;
-using Services;
+﻿using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,40 +7,31 @@ namespace Day1.Services
 {
     public class Day1SolverService : ISolverService
     {
-        private AbstractFactory<string, IEnumerable<Calibration>> calibrationParseService = null;
-        private ICalibrationSumService calibrationSumService = null;
+        private AbstractFactory<string, IEnumerable<string>> calibrationFactory = null;
 
-        public Day1SolverService(AbstractFactory<string, IEnumerable<Calibration>> calibrationParseService, ICalibrationSumService calibrationSumService)
+        public Day1SolverService(AbstractFactory<string, IEnumerable<string>> calibrationFactory)
         {
-            this.calibrationParseService = calibrationParseService;
-            this.calibrationSumService = calibrationSumService;
+            this.calibrationFactory = calibrationFactory;
         }
 
         public void Execute()
         {
-            ExecuteS1(Day1.Resources.Resource.S1Test);
-            ExecuteS1(Day1.Resources.Resource.D1);
-            ExecuteS2(Day1.Resources.Resource.S2Test);
-            ExecuteS2(Day1.Resources.Resource.D1);
+            ExecuteS1(Resources.Resource.Test);
+            ExecuteS1(Resources.Resource.Puzzle);
+            ExecuteS2(Resources.Resource.Test2);
+            ExecuteS2(Resources.Resource.Puzzle);
         }
 
         public void ExecuteS1(string data)
         {
-            IEnumerable<Calibration> calibrations = this.calibrationParseService.Create(data);
+            IEnumerable<string> calibrations = this.calibrationFactory.Create(data);
 
-            foreach (Calibration calibration in calibrations)
-            {
-                Console.WriteLine($"The calibration value of {calibration} is {calibrationSumService.GetSum(calibration)}.");
-            }
-
-            Console.WriteLine($"The sum of all calibration values is {calibrations.Sum(x => calibrationSumService.GetSum(x))}.");
-
-            Console.ReadKey();
+            Console.WriteLine($"The sum of all calibration values is {calibrations.Sum(x => GetSum(x))}.");
         }
 
         public void ExecuteS2(string data)
         {
-            IEnumerable<Calibration> calibrations = this.calibrationParseService.Create(data);
+            IEnumerable<string> calibrations = this.calibrationFactory.Create(data);
             List<string> wordNumbers = new List<string>
             {
                 "one",
@@ -56,14 +45,56 @@ namespace Day1.Services
                 "nine"
             };
 
-            foreach (Calibration calibration in calibrations)
+            Console.WriteLine($"The sum of all calibration values is {calibrations.Sum(x => GetSum(x, wordNumbers))}.");
+        }
+
+        public int GetSum(string calibration, IEnumerable<string> wordNumbers = null)
+        {
+            List<KeyValuePair<int, string>> indexStringPairs = new List<KeyValuePair<int, string>>();
+            string calibrationString = calibration.ToString();
+
+            for (int i = 0; i < calibrationString.Length; i++)
             {
-                Console.WriteLine($"The calibration value of {calibration} is {calibrationSumService.GetSum(calibration, wordNumbers)}.");
+                if (char.IsDigit(calibrationString[i]))
+                {
+                    indexStringPairs.Add(new KeyValuePair<int, string>(i, calibrationString[i].ToString()));
+                }
             }
 
-            Console.WriteLine($"The sum of all calibration values is {calibrations.Sum(x => calibrationSumService.GetSum(x, wordNumbers))}.");
+            if (wordNumbers != null)
+            {
+                foreach (string wordNumber in wordNumbers)
+                {
+                    string lowercaseString = wordNumber.ToLower();
+                    if (calibrationString.Contains(lowercaseString))
+                    {
+                        int index = calibrationString.IndexOf(lowercaseString);
+                        while (index != -1)
+                        {
+                            indexStringPairs.Add(new KeyValuePair<int, string>(index, ConvertWordNumberStringToIntegerString(wordNumber)));
+                            index = calibrationString.IndexOf(lowercaseString, index + 1);
+                        }
+                    }
+                }
+            }
 
-            Console.ReadKey();
+            IEnumerable<KeyValuePair<int, string>> orderedPairs = indexStringPairs.OrderBy(x => x.Key);
+
+            return int.Parse(orderedPairs.First().Value + orderedPairs.Last().Value);
         }
+
+        private static string ConvertWordNumberStringToIntegerString(string wordNumberString) => wordNumberString switch
+        {
+            "one" => "1",
+            "two" => "2",
+            "three" => "3",
+            "four" => "4",
+            "five" => "5",
+            "six" => "6",
+            "seven" => "7",
+            "eight" => "8",
+            "nine" => "9",
+            _ => string.Empty
+        };
     }
 }

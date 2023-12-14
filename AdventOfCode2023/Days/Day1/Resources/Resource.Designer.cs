@@ -89,9 +89,9 @@ namespace Day1.Resources {
         ///two4four
         ///ldzpzgch32 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string D1 {
+        internal static string Puzzle {
             get {
-                return ResourceManager.GetString("D1", resourceCulture);
+                return ResourceManager.GetString("Puzzle", resourceCulture);
             }
         }
         
@@ -101,9 +101,9 @@ namespace Day1.Resources {
         ///a1b2c3d4e5f
         ///treb7uchet.
         /// </summary>
-        internal static string S1Test {
+        internal static string Test {
             get {
-                return ResourceManager.GetString("S1Test", resourceCulture);
+                return ResourceManager.GetString("Test", resourceCulture);
             }
         }
         
@@ -116,9 +116,9 @@ namespace Day1.Resources {
         ///zoneight234
         ///7pqrstsixteen.
         /// </summary>
-        internal static string S2Test {
+        internal static string Test2 {
             get {
-                return ResourceManager.GetString("S2Test", resourceCulture);
+                return ResourceManager.GetString("Test2", resourceCulture);
             }
         }
     }

@@ -23,9 +23,29 @@ namespace AdventOfCode2023
             using(IServiceScope serviceScope = serviceProvider.CreateScope())
             {
                 IEnumerable<ISolverService> solverServices = serviceScope.ServiceProvider.GetServices<ISolverService>();
-                foreach (ISolverService solverService in solverServices)
+
+                while (true)
                 {
-                    solverService.Execute();
+                    Console.Write("Please select which puzzle to run: ");
+                    string input = Console.ReadLine();
+
+                    if (int.TryParse(input, out int value))
+                    {
+                        value = value - 1;
+
+                        if(value >= 0 && value<solverServices.Count())
+                        {
+                            solverServices.ElementAt(value).Execute();
+                        }
+                        else
+                        {
+                            Console.WriteLine("Not a valid day. Try again.");
+                        }
+                    }
+                    else if (input == "q" || input == "quit")
+                    {
+                        break;
+                    }
                 }
             }
         }
