@@ -1,14 +1,13 @@
-﻿using Day11.Model;
+using Day11.Model;
 using Services;
-using Services.Grid;
 
 namespace Day11.Services
 {
     public class Day11SolverService : ISolverService
     {
-        private readonly AbstractFactory<string[], Grid<SpaceCell>> _spaceGridFactory;
+        private readonly AbstractFactory<string[], SpaceGrid> _spaceGridFactory;
 
-        public Day11SolverService(AbstractFactory<string[], Grid<SpaceCell>> spaceGridFactory)
+        public Day11SolverService(AbstractFactory<string[], SpaceGrid> spaceGridFactory)
         {
             _spaceGridFactory = spaceGridFactory;
         }
@@ -23,26 +22,36 @@ namespace Day11.Services
 
         public void ExecuteS1(string data)
         {
-            Grid<SpaceCell> grid = _spaceGridFactory.Create(data.Split("\r\n"));
-            IEnumerable<SpaceCell> galaxies = grid.Cells.SelectMany(x => x).Where(x => x.Character == '#');
-            List<int> distance = new List<int>();
+            SpaceGrid grid = _spaceGridFactory.Create(data.Split("\r\n"));
+            IEnumerable<SpaceCell> galaxies = grid.GetAllGalaxies();
+            IEnumerable<Tuple<SpaceCell, SpaceCell>> uniqueGalaxyPairs = galaxies.SelectMany((value, index) => galaxies.Skip(index + 1), (first, second) => Tuple.Create(first, second));
+            List<long> distances = new List<long>();
 
-            foreach (SpaceCell galaxy in galaxies)
+            foreach (Tuple<SpaceCell, SpaceCell> pair in uniqueGalaxyPairs)
             {
-                foreach(SpaceCell otherGalaxy in galaxies.Where(x => x != galaxy))
-                {
-                    distance.Add(Math.Abs(galaxy.X - otherGalaxy.X) + Math.Abs(galaxy.Y - otherGalaxy.Y));
-                }
+                distances.Add(grid.CalculateDistance(pair.Item1, pair.Item2, 2));
             }
 
-            Console.WriteLine($"The sum of all galaxy-pair distance is {distance.Sum()/2}");
+            Console.WriteLine($"The sum of all distances between galaxy pairs is {distances.Sum()}");
 
             Console.ReadKey();
         }
 
         public void ExecuteS2(string data)
         {
-            
+            SpaceGrid grid = _spaceGridFactory.Create(data.Split("\r\n"));
+            IEnumerable<SpaceCell> galaxies = grid.GetAllGalaxies();
+            IEnumerable<Tuple<SpaceCell, SpaceCell>> uniqueGalaxyPairs = galaxies.SelectMany((value, index) => galaxies.Skip(index + 1), (first, second) => Tuple.Create(first, second));
+            List<long> distances = new List<long>();
+
+            foreach (Tuple<SpaceCell, SpaceCell> pair in uniqueGalaxyPairs)
+            {
+                distances.Add(grid.CalculateDistance(pair.Item1, pair.Item2, 1000000));
+            }
+
+            Console.WriteLine($"The sum of all distances between galaxy pairs is {distances.Sum()}");
+
+            Console.ReadKey();
         }
     }
 }
