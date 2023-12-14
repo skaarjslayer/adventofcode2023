@@ -24,9 +24,11 @@ namespace AdventOfCode2023
             {
                 IEnumerable<ISolverService> solverServices = serviceScope.ServiceProvider.GetServices<ISolverService>();
 
+                Console.WriteLine("Type in which puzzle you want to run (days 1 to 25) or type 'q' to exit.\n");
+
                 while (true)
                 {
-                    Console.Write("Please select which puzzle to run: ");
+                    Console.Write("Awaiting input: ");
                     string input = Console.ReadLine();
 
                     if (int.TryParse(input, out int value))
@@ -42,7 +44,7 @@ namespace AdventOfCode2023
                             Console.WriteLine("Not a valid day. Try again.");
                         }
                     }
-                    else if (input == "q" || input == "quit")
+                    else if (input == "q")
                     {
                         break;
                     }
