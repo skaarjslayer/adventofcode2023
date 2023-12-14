@@ -67,9 +67,9 @@ namespace Day2.Resources {
         ///Game 4: 14 green, 14 red, 1 blue; 15 red, 13 green, 1 blue; 6 green, 15 red; 7 green
         ///Game 5: 3 green, [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string D2 {
+        internal static string Puzzle {
             get {
-                return ResourceManager.GetString("D2", resourceCulture);
+                return ResourceManager.GetString("Puzzle", resourceCulture);
             }
         }
         

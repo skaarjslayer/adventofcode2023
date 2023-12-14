@@ -51,7 +51,7 @@ namespace Day1.Services
         private void ExecuteS1(string input)
         {
             /* For each calibration string, we must gather all indices where digits (1, 2, 3, etc.) appear in that string. */
-            IEnumerable<string> calibrations = _calibrationFactory.Create(input);
+            IEnumerable<string> calibrations = input.Split("\r\n");
             IEnumerable<IEnumerable<KeyValuePair<int, string>>> indexDigitPairs = calibrations.Select(x => GetIndexDigitPairs(x));
 
             /* Then, we simply concatenate each of the first and last digits (e.g., 1 and 2 becomes 12).
@@ -82,7 +82,7 @@ namespace Day1.Services
             /* For each calibration string, we must gather all indices where digits (1, 2, 3, etc.) appear in that string.
              * Then, we must also gather all indices where word numbers (one, two, three, etc.) appear in that string.
              * Because we process digits and word numbers separately, we must re-order the collection by index. */
-            IEnumerable<string> calibrations = _calibrationFactory.Create(input);
+            IEnumerable<string> calibrations = input.Split("\r\n");
             IEnumerable<IEnumerable<KeyValuePair<int, string>>> indexDigitPairs = calibrations.Select(x => GetIndexDigitPairs(x).Union(GetIndexWordNumberPairs(x, wordNumberMap)).OrderBy(x => x.Key));
 
             /* Then, we simply concatenate each of the first and last digits (e.g., 1 and 2 becomes 12).

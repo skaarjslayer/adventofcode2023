@@ -3,11 +3,11 @@ using Services;
 
 namespace Day2.Services
 {
-    public class SubsetParseService : AbstractFactory<string, IEnumerable<Subset>>
+    public class SubsetFactory : AbstractFactory<string, IEnumerable<CubeSet>>
     {
-        public override IEnumerable<Subset> Create(string input)
+        public override IEnumerable<CubeSet> Create(string input)
         {
-            List<Subset> subsets = new List<Subset>();
+            List<CubeSet> subsets = new List<CubeSet>();
 
             string[] subsetData = input.Split(';');
 
@@ -37,7 +37,7 @@ namespace Day2.Services
                     }
                 }
 
-                subsets.Add(new Subset(reds, greens, blues));
+                subsets.Add(new CubeSet(reds, greens, blues));
             }
 
             return subsets.AsReadOnly();
