@@ -8,20 +8,40 @@ namespace Day2.Services
     /// </summary>
     public class GameFactory : AbstractFactory<string, Game>
     {
-        private readonly AbstractFactory<string, IEnumerable<CubeSet>> _subsetParseService;
+        #region Fields
 
-        public GameFactory(AbstractFactory<string, IEnumerable<CubeSet>> subsetParseService)
+        private readonly AbstractFactory<string, Cubes> _cubesFactory;
+
+        #endregion Fields
+
+        #region Constructors
+
+        /// <summary>
+        /// This constructor will be automatically called by the dependency injection framework and provide the requested dependencies.
+        /// </summary>
+        /// <param name="cubesFactory">The factory for creating cubes that will be injected into the constructor.</param>
+        public GameFactory(AbstractFactory<string, Cubes> cubesFactory)
         {
-            _subsetParseService = subsetParseService;
+            _cubesFactory = cubesFactory;
         }
 
-        public override IEnumerable<Game> Create(string input)
+        #endregion Constructors
+
+        #region AbstractFactory Implementation
+
+        /// <inheritdoc/>
+        public override Game Create(string input)
         {
-            string[] parts = input.Split(':');
-            int gameID = int.Parse(parts.First().Split(' ').Last());
-            IEnumerable<CubeSet> subsets = _subsetParseService.Create(parts.Last().Trim());
+            const char Colon = ':';
+            const char Space = ' ';
+
+            string[] parts = input.Split(Colon);
+            int gameID = int.Parse(parts.First().Split(Space).Last());
+            IEnumerable<Cubes> subsets = _cubesFactory.CreateMany(parts.Last().Trim());
 
             return new Game(gameID, subsets);
         }
+
+        #endregion AbstractFactory Implementation
     }
 }

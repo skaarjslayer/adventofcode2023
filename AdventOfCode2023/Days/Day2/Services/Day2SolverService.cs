@@ -10,7 +10,7 @@ namespace Day2.Services
     {
         #region Fields
 
-        private readonly AbstractFactory<string, IEnumerable<Game>> _gameFactory;
+        private readonly AbstractFactory<string, Game> _gameFactory;
 
         #endregion Fields
 
@@ -20,7 +20,7 @@ namespace Day2.Services
         /// This constructor will be automatically called by the dependency injection framework and provide the requested dependencies.
         /// </summary>
         /// <param name="gameFactory">The factory for creating games that will be injected into the constructor.</param>
-        public Day2SolverService(AbstractFactory<string, IEnumerable<Game>> gameFactory)
+        public Day2SolverService(AbstractFactory<string, Game> gameFactory)
         {
             _gameFactory = gameFactory;
         }
@@ -48,10 +48,10 @@ namespace Day2.Services
         /// <param name="input">The input string for the puzzle.</param>
         private void ExecuteS1(string input)
         {
-            CubeSet legalSubset = new CubeSet(12, 13, 14);
-            IEnumerable<Game> games = _gameFactory.Create(input);
+            Cubes legalSubset = new Cubes(12, 13, 14);
+            IEnumerable<Game> games = _gameFactory.CreateMany(input.Split("\r\n"));
 
-            Console.WriteLine($"The sum of all legal game IDs is {games.Where(x => x.IsLegal(legalSubset)).Sum(x => x.ID)}.");
+            Console.WriteLine($"The sum of all legal game IDs is {games.Where(x => x.IsLegal(legalSubset)).Sum(x => x.Id)}.");
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Day2.Services
         /// <param name="input">The input string for the puzzle.</param>
         private void ExecuteS2(string input)
         {
-            IEnumerable<Game> games = _gameFactory.Create(input);
+            IEnumerable<Game> games = _gameFactory.CreateMany(input.Split("\r\n"));
 
             Console.WriteLine($"The sum of all game powers is {games.Sum(x => x.GetPower())}.");
         }

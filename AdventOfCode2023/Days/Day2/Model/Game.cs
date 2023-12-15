@@ -1,21 +1,52 @@
 ﻿namespace Day2.Model
 {
+    /// <summary>
+    /// Represents a game containing multiple reveals of cubes.
+    /// </summary>
     public class Game
     {
-        public int ID { get; private set; }
-        public IEnumerable<CubeSet> Reveals { get; private set; }
+        #region Properties
 
-        public Game(int id, IEnumerable<CubeSet> reveals)
+        /// <summary>
+        /// Returns the Id of the game.
+        /// </summary>
+        public int Id { get; private set; }
+
+        #endregion Properties
+
+        #region Fields
+
+        private readonly IEnumerable<Cubes> _cubeReveals;
+
+        #endregion Fields
+
+        #region Constructors
+
+        /// <summary>
+        /// Creates a new Game instance.
+        /// </summary>
+        /// <param name="id">The Id of the game.</param>
+        /// <param name="_cubeReveals">A collection of cubes revealed over the course of the game.</param>
+        public Game(int id, IEnumerable<Cubes> _cubeReveals)
         {
-            ID = id;
-            Reveals = reveals;
+            Id = id;
+            this._cubeReveals = _cubeReveals;
         }
 
-        public bool IsLegal(CubeSet legalSubset)
+        #endregion Constructors
+
+        #region Public Methods
+
+        /// <summary>
+        /// Checks if this game is legal by checking if all reveals are legal compared to a given set of what cubes are possible.
+        /// </summary>
+        /// <param name="possibleCubes">A set of cubes defining the maximum possible number of red, green, and blue cubes in the game.</param>
+        /// <returns>A bool indicating whether or not the game is legal.</returns>
+        public bool IsLegal(Cubes possibleCubes)
         {
-            foreach(CubeSet reveal in Reveals)
+            foreach (Cubes reveal in _cubeReveals)
             {
-                if (!reveal.IsLegal(legalSubset))
+                if (!reveal.IsLegal(possibleCubes))
                 {
                     return false;
                 }
@@ -24,13 +55,19 @@
             return true;
         }
 
+        /// <summary>
+        /// Gets the 'power' value of a game, based on the product of the highest number of red, green, and blue cubes across all reveals.
+        /// </summary>
+        /// <returns>The 'power' value.</returns>
         public int GetPower()
         {
-            int minReds = Reveals.Select(x => x.Reds).Max();
-            int minGreens = Reveals.Select(x => x.Greens).Max();
-            int minBlues = Reveals.Select(x => x.Blues).Max();
+            int maxReds = _cubeReveals.Select(x => x.Reds).Max();
+            int maxGreens = _cubeReveals.Select(x => x.Greens).Max();
+            int maxBlues = _cubeReveals.Select(x => x.Blues).Max();
 
-            return minReds * minGreens * minBlues;
+            return maxReds * maxGreens * maxBlues;
         }
+
+        #endregion Public Methods
     }
 }
