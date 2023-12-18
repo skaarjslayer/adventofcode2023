@@ -1,6 +1,8 @@
 using Day12.Factory;
 using Day12.Model;
 using Services;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Day12.Services
 {
@@ -23,55 +25,73 @@ namespace Day12.Services
 
         public void ExecuteS1(string data)
         {
+            Stopwatch sw = Stopwatch.StartNew();
+            sw.Start();
+
             IEnumerable<SpringSetCreateArgs> args = data.Split("\r\n").Select(x => new SpringSetCreateArgs() { Springs = x, Copies = 1 });
             IEnumerable<SpringSet> springSets = _springSetFactory.CreateMany(args);
 
-            Console.WriteLine($"The sum of all arrangements is: {springSets.Sum(x => GetDamagedGroupArrangementCount(x.Springs, x.DamagedGroups))}");
+            Console.WriteLine($"The sum of all arrangements is: {springSets.Sum(x => GetDamagedGroupArrangementCount(x, new Dictionary<SpringSet, long>()))}");
+            
+            sw.Stop();
+            Console.WriteLine($"Done: {sw.ElapsedMilliseconds}ms");
         }
 
         public void ExecuteS2(string data)
         {
+            Stopwatch sw = Stopwatch.StartNew();
+            sw.Start();
+
             IEnumerable<SpringSetCreateArgs> args = data.Split("\r\n").Select(x => new SpringSetCreateArgs() { Springs = x, Copies = 5 });
             IEnumerable<SpringSet> springSets = _springSetFactory.CreateMany(args);
 
-            foreach (SpringSet springSet in springSets)
-            {
-                Console.WriteLine($"Springset {springSet.Springs} count = {GetDamagedGroupArrangementCount(springSet.Springs, springSet.DamagedGroups)}");
-            }
+            Console.WriteLine($"The sum of all arrangements is: {springSets.Sum(x => GetDamagedGroupArrangementCount(x, new Dictionary<SpringSet, long>()))}");
 
-            Console.WriteLine("Done!");
-      //      Console.WriteLine($"The sum of all arrangements is: {springSets.Sum(x => GetDamagedGroupArrangementCount(x.Springs, x.DamagedGroups))}");
+            sw.Stop();
+            Console.WriteLine($"Done: {sw.ElapsedMilliseconds}ms");
         }
 
-        public int GetDamagedGroupArrangementCount(string springs, List<int> damagedGroups)
+        public long GetDamagedGroupArrangementCount(SpringSet springSet, Dictionary<SpringSet, long> cache)
         {
-            List<int> newGroup = new List<int>(damagedGroups);
+            List<int> newGroup = new List<int>(springSet.DamagedGroups);
 
-            if (springs.Count() > 0)
+            if (cache.ContainsKey(springSet))
             {
-                char spring = springs.First();
+                return cache[springSet];
+            }
+
+            if (springSet.Springs.Count() > 0)
+            {
+                char spring = springSet.Springs.First();
 
                 if (IsOperational(spring))
                 {
-                    return GetDamagedGroupArrangementCount(springs.Substring(1, springs.Length - 1), newGroup);
+                    SpringSet newSpringSet = new SpringSet() { Springs = springSet.Springs.Substring(1, springSet.Springs.Length - 1), DamagedGroups = newGroup };
+                    long value = GetDamagedGroupArrangementCount(newSpringSet, cache);
+                    if (!cache.ContainsKey(newSpringSet))
+                    {
+                        cache[newSpringSet] = value;
+                    }
+
+                    return value;
                 }
                 else if (IsDamaged(spring))
                 {
                     // Invalid branch if we're processing a damaged spring, but there are no more groups to process.
-                    if (damagedGroups.Count() == 0)
+                    if (newGroup.Count() == 0)
                     {
                         return 0;
                     }
 
                     // Invalid branch if there are not enough damaged springs (or possibly damaged springs) to satisfy the remaining known groups.
-                    if (springs.Where(c => !IsOperational(c)).Count() < damagedGroups.Sum())
+                    if (springSet.Springs.Where(c => !IsOperational(c)).Count() < newGroup.Sum())
                     {
                         return 0;
                     }
 
                     // Invalid branch if there are not enough springs left to process the next group.
-                    int group = damagedGroups.First();
-                    if (group > springs.Length)
+                    int group = newGroup.First();
+                    if (group > springSet.Springs.Length)
                     {
                         return 0;
                     }
@@ -79,13 +99,13 @@ namespace Day12.Services
                     // Invalid branch if any of the springs in the group are known to be operational.
                     for (int i = 0; i < group; i++)
                     {
-                        if (IsOperational(springs[i]))
+                        if (IsOperational(springSet.Springs[i]))
                         {
                             return 0;
                         }
                     }
 
-                    char[] newOutcome = springs.Substring(group, springs.Length - group).ToCharArray();
+                    char[] newOutcome = springSet.Springs.Substring(group, springSet.Springs.Length - group).ToCharArray();
                     if (newOutcome.Length > 0)
                     {
                         // Invalid branch if the next spring is known to be damaged. We just processed a group, so the following spring has to be operational to be valid.
@@ -98,18 +118,42 @@ namespace Day12.Services
                     }
 
                     newGroup.RemoveAt(0);
-                    return GetDamagedGroupArrangementCount(new string(newOutcome), newGroup);
+
+                    SpringSet newSpringSet = new SpringSet() { Springs = new string(newOutcome), DamagedGroups = newGroup };
+                    long value = GetDamagedGroupArrangementCount(newSpringSet, cache);
+
+                    if (!cache.ContainsKey(newSpringSet))
+                    {
+                        cache[newSpringSet] = value;
+                    }
+
+                    return value;
                 }
                 else
                 {
-                    char[] firstPossibility = springs.ToCharArray();
+                    char[] firstPossibility = springSet.Springs.ToCharArray();
                     firstPossibility[0] = '.';
 
-                    char[] secondPossibility = springs.ToCharArray();
+                    char[] secondPossibility = springSet.Springs.ToCharArray();
                     secondPossibility[0] = '#';
-                    List<int> newList = newGroup;
-                    return GetDamagedGroupArrangementCount(new string(firstPossibility), newList) +
-                           GetDamagedGroupArrangementCount(new string(secondPossibility), newList);
+
+                    SpringSet newSpringSet1 = new SpringSet() { Springs = new string(firstPossibility), DamagedGroups = newGroup };
+                    SpringSet newSpringSet2 = new SpringSet() { Springs = new string(secondPossibility), DamagedGroups = newGroup };
+
+                    long value1 = GetDamagedGroupArrangementCount(newSpringSet1, cache);
+                    long value2 = GetDamagedGroupArrangementCount(newSpringSet2, cache);
+
+                    if (!cache.ContainsKey(newSpringSet1))
+                    {
+                        cache[newSpringSet1] = value1;
+                    }
+
+                    if (!cache.ContainsKey(newSpringSet2))
+                    {
+                        cache[newSpringSet2] = value2;
+                    }
+
+                    return value1 + value2;
                 }
             }
 
