@@ -3,6 +3,6 @@
     public class SpringSet
     {
         public string Springs { get; init; }
-        IEnumerable<int> DamagedGroups { get; init; }
+        public List<int> DamagedGroups { get; init; }
     }
 }
