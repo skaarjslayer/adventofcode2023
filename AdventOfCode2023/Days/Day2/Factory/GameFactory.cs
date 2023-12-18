@@ -37,9 +37,11 @@ namespace Day2.Services
 
             string[] parts = input.Split(Colon);
             int gameID = int.Parse(parts.First().Split(Space).Last());
-            IEnumerable<Cubes> subsets = _cubesFactory.CreateMany(parts.Last().Trim());
+        //    IEnumerable<Cubes> subsets = _cubesFactory.CreateMany(parts.Last().Trim());
 
-            return new Game(gameID, subsets);
+            //return new Game(gameID, subsets);
+
+            return null;
         }
 
         #endregion AbstractFactory Implementation
