@@ -86,22 +86,22 @@ namespace AdventOfCode2023
                 {
                     if (IsSingleton(implementationType))
                     {
-                        serviceCollection.TryAddSingleton(implementationType);
+                        serviceCollection.AddSingleton(implementationType);
                     }
                     else
                     {
-                        serviceCollection.TryAddTransient(implementationType);
+                        serviceCollection.AddTransient(implementationType);
                     }
 
                     foreach (Type interfaceType in GetAllInterfaces(implementationType))
                     {
                         if (IsSingleton(implementationType))
                         {
-                            serviceCollection.TryAddSingleton(interfaceType, implementationType);
+                            serviceCollection.AddSingleton(interfaceType, implementationType);
                         }
                         else
                         {
-                            serviceCollection.TryAddTransient(interfaceType, implementationType);
+                            serviceCollection.AddTransient(interfaceType, implementationType);
                         }
                     }
                 }
