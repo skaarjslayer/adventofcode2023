@@ -22,7 +22,7 @@ namespace AdventOfCode2023
 
             using(IServiceScope serviceScope = serviceProvider.CreateScope())
             {
-                IEnumerable<ISolverService> solverServices = serviceScope.ServiceProvider.GetServices<ISolverService>();
+                IEnumerable<ISolverService> solverServices = serviceScope.ServiceProvider.GetServices<ISolverService>().OrderBy(service => int.Parse(Regex.Match(service.GetType().Name, @"\d+").Value));
 
                 Console.WriteLine("Type in which puzzle you want to run (days 1 to 25) or type 'q' to exit.\n");
 
