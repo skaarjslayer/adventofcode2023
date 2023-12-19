@@ -5,6 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Factory\**" />
+    <Compile Remove="Model\**" />
+    <EmbeddedResource Remove="Factory\**" />
+    <EmbeddedResource Remove="Model\**" />
+    <None Remove="Factory\**" />
+    <None Remove="Model\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Services\Services.csproj" />
   </ItemGroup>
 
@@ -22,11 +31,6 @@
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Factory\" />
-    <Folder Include="Model\" />
   </ItemGroup>
 
 </Project>
