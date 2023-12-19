@@ -10,25 +10,6 @@ namespace Day1.Services
     /// </summary>
     public class Day1SolverService : ISolverService
     {
-        #region Fields
-
-        private readonly AbstractFactory<string, IEnumerable<string>> _calibrationFactory;
-
-        #endregion Fields
-
-        #region Constructors
-
-        /// <summary>
-        /// This constructor will be automatically called by the dependency injection framework and provide the requested dependencies.
-        /// </summary>
-        /// <param name="calibrationFactory">The factory for creating calibrations that will be injected into the constructor.</param>
-        public Day1SolverService(AbstractFactory<string, IEnumerable<string>> calibrationFactory)
-        {
-            _calibrationFactory = calibrationFactory;
-        }
-
-        #endregion Constructors
-
         #region ISolverService Implementation
 
         /// <inheritdoc/>
