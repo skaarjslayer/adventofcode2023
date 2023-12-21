@@ -1,4 +1,6 @@
+using Day13.Model;
 using Services;
+using Services.Grid;
 
 namespace Day13.Services
 {
@@ -9,13 +11,15 @@ namespace Day13.Services
     {
         #region Fields
 
-        
+        private readonly AbstractFactory<string, IEnumerable<Grid<ValleyCell>>> _textToValleyGridFactory;
+
         #endregion Fields
 
         #region Constructors
 
-        public Day13SolverService()
+        public Day13SolverService(AbstractFactory<string, IEnumerable<Grid<ValleyCell>>> textToValleyGridFactory)
         {
+            _textToValleyGridFactory = textToValleyGridFactory;
         }
 
         #endregion Constructors
@@ -41,7 +45,9 @@ namespace Day13.Services
         /// <param name="input">The input string for the puzzle.</param>
         private void ExecuteS1(string input)
         {
-            Console.WriteLine($"The sum of all arrangements is ");
+            IEnumerable<Grid<ValleyCell>> grids = _textToValleyGridFactory.Create(input);
+
+            Console.WriteLine($"The summarization of all grid notes is ");
         }
 
         /// <summary>
@@ -50,7 +56,6 @@ namespace Day13.Services
         /// <param name="input">The input string for the puzzle.</param>
         private void ExecuteS2(string input)
         {
-            Console.WriteLine($"The sum of all arrangements is ");
         }
 
         #endregion Private Methods
